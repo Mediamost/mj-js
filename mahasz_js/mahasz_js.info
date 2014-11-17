@@ -1,0 +1,7 @@
+name = MAHASZ JS
+description = Custom JavaScript file
+package = Mahasz
+core = 7.x
+version = 7.x-1.0-alpha2
+project = mahasz_js
+files[] = mahasz_js.module

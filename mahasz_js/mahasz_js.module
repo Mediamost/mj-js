@@ -1,0 +1,64 @@
+<?php
+
+
+function mahasz_js_init(){
+	global $user, $node;
+
+	//build args dynamically
+	$args = array();
+	for($i = 0; $a = arg($i); $i++){
+		$args[] = $a;
+		if ($i>20) {
+			watchdog('mahasz_js', 'infinite loop!', array(), WATCHDOG_CRITICAL);
+			break;
+		}
+	}
+
+	$node = menu_get_object();
+
+	drupal_add_js(array(
+		'mahasz_js' => array( 
+			'args' => $args,
+			'currentUser' => $user->uid,
+      'nid' => !empty($node) ? $node->nid : '',
+      'uid' => !empty($node) ? $node->uid : '',
+      'node_type' => !empty($node) ? $node->type : '',
+			'node_fields' => !empty($node) ? array('field_jogositas' => field_get_items('node', $node, 'field_jogositas')) : array(),
+      'formIds' => array()
+		),
+	), 'setting');
+}
+
+/* no logic needed for ZG modify page */
+function mahasz_js_form_alter(&$form, $form_state, $form_id) {
+
+	drupal_add_js(array(
+		'mahasz_js' => array( 
+			'formIds' => array($form_id),
+		)
+	), 'setting');
+}
+
+
+/**
+ * Implements hook_page_build().
+ */
+function mahasz_js_page_build(&$page) {
+  $path = drupal_get_path('module', 'mahasz_js');
+
+  $page['page_bottom']['mahasz_js'] = array(
+    '#attached' => array(),
+  );
+  $attached = &$page['page_bottom']['mahasz_js']['#attached'];
+  $every_page = array('every_page' => TRUE);
+  $attached['js'][$path . '/add_zg.js'] = $every_page;
+  $attached['js'][$path . '/edit_node.js'] = $every_page;
+  $attached['js'][$path . '/login_page.js'] = $every_page;
+  $attached['js'][$path . '/sablon_szovegek.js'] = $every_page;
+  $attached['js'][$path . '/password_reset.js'] = $every_page;
+  $attached['js'][$path . '/levelkuldes.js'] = $every_page;
+  $attached['js'][$path . '/regform.js'] = $every_page;
+}
+
+
+?>
