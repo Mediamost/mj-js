@@ -1,9 +1,34 @@
 /* regform */
 Drupal.behaviors.mahasz_js_regform = function ($){
 
-    var set_magan = function (){
-        var szemely = jQuery('#edit-field-regisztralo-szemelye-und');
-        if(jQuery('#edit-field-jogi-csoport-und-dj').is(':checked')){
+
+
+    /*
+     *      Cache jQuery objects
+     */
+    var djChbox =       jQuery('#edit-field-jogi-csoport-und-dj'),
+        djszovGroup =   jQuery('#user_user_form_group_djszovetseg'),
+        szemely =       jQuery('#edit-field-regisztralo-szemelye-und'),
+        cegnev =        jQuery('#edit-field-cegnev'),
+        cegJogosult =   jQuery('#edit-field-ceg-jogosult'),
+        adoszam =       jQuery('#edit-field-adoszam'),
+        teljesNev =     jQuery('#edit-field-teljes-nev'),
+        teljesNevInput =jQuery('#edit-field-teljes-nev-und-0-value'),
+        anyjaNeve =     jQuery('#edit-field-anyja-neve'),
+        szuletesiIdo =  jQuery('#edit-field-szuletesi-ido'),
+        penzKapcsNev =  jQuery('#edit-field-penzugyi-kapcsolat-neve'),
+        penzKapcsTel =  jQuery('#edit-field-penzugyi-kapcsolat-tel'),
+        penzKapcsEmail =jQuery('#edit-field-penzugyi-kapcsolat-email'),
+        egyezikFentiCim=jQuery('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel'),
+        placeholder  =  '';
+
+
+
+    /*
+     *      Ha DJ-t bepipálja, reg. személy legyen magán és letiltva
+     */
+    var setMagan = function (){
+        if(djChbox.is(':checked')){
             szemely.val('magan').attr('disabled','disabled').trigger('change');
         }
         else{
@@ -11,23 +36,34 @@ Drupal.behaviors.mahasz_js_regform = function ($){
         }
     }
 
-    //cached vars
-    djChbox = $('#edit-field-jogi-csoport-und-dj');
-    djszovGroup = $('#user_user_form_group_djszovetseg');
 
+    /*
+     *      Adott HTML elem mögé kerüljön csillag (kötelező)
+     */
+    var addStar = function(elm, id) {
+        var kotelezo = '<span class="form-required" '+(id ? 'id="'+id+'"' : '')+' title="Szükséges mező.">*</span>';
+        elm.append(kotelezo);
+    }
+
+
+    /*
+     *      Kötelező mezők beállítása
+     */
+    (function() {
+        //mark some fields as required (as they really are, but not by form api)
+        addStar(cegnev.find('label'));
+        addStar(cegJogosult.find('label'));
+        addStar(adoszam.find('label'));
+        addStar(teljesNev.find('label'));
+        addStar(anyjaNeve.find('label'));
+        addStar(szuletesiIdo.find('.fieldset-legend'));
+        //addStar(szuletesiIdo.find('label'));
+    })();
 
     //mark errors on parents of checkboxes, radios
     $('input.error:checkbox').parent().css('color','#ff0000');
     $('input.error:radio').parent().css('color','#ff0000');
 
-    //mark some fields as required (as they really are, but not by form api)
-    $('#edit-field-cegnev').find('label').append('<span class="form-required" title="Szükséges mező.">*</span>');
-    $('#edit-field-ceg-jogosult').find('label').append('<span class="form-required" title="Szükséges mező.">*</span>');
-    $('#edit-field-adoszam').find('label').append('<span class="form-required" title="Szükséges mező.">*</span>');
-    $('#edit-field-teljes-nev').find('label').append('<span class="form-required" title="Szükséges mező.">*</span>');
-    $('#edit-field-anyja-neve').find('label').append('<span class="form-required" title="Szükséges mező.">*</span>');
-//    $('#edit-field-szuletesi-ido').find('label').append('<span class="form-required" title="Szükséges mező.">*</span>');
-    $('#edit-field-szuletesi-ido').find('.fieldset-legend').append('<span class="form-required" title="Szükséges mező.">*</span>');
 
     //hide unneeded labels
     $('#edit-field-megegyezik label').eq(0).addClass('hidden');
@@ -35,9 +71,9 @@ Drupal.behaviors.mahasz_js_regform = function ($){
     $('#user_user_form_group_djszovetseg label').eq(0).addClass('hidden');
 
     //disable reg-szemely (and change, and trigger its change) if DJ is checked already
-    set_magan();
+    setMagan();
     //and when checked
-    djChbox.change(function(){set_magan();});
+    djChbox.change(function(){setMagan();});
 
     //create copy of reg-szemely to store its data even it is disabled (not send in form data)
     var mysrc = $('#edit-field-regisztralo-szemelye-und');
@@ -53,60 +89,60 @@ Drupal.behaviors.mahasz_js_regform = function ($){
     }
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
     if( $('#edit-field-regisztralo-szemelye-und').val() === 'magan' ){
-        $('#edit-field-cegnev').addClass('hidden');
-        $('#edit-field-ceg-jogosult').addClass('hidden');
-        $('#edit-field-adoszam').addClass('hidden');
+        cegnev.addClass('hidden');
+        cegJogosult.addClass('hidden');
+        adoszam.addClass('hidden');
 //        $('#edit-field-bankszamla').addClass('hidden');
-        $('#edit-field-penzugyi-kapcsolat-neve').addClass('hidden');
-        $('#edit-field-penzugyi-kapcsolat-tel').addClass('hidden');
-        $('#edit-field-penzugyi-kapcsolat-email').addClass('hidden');
-        $('#edit-field-teljes-nev').removeClass('hidden');
-        $('#edit-field-anyja-neve').removeClass('hidden');
-        $('#edit-field-szuletesi-ido').removeClass('hidden');
+        penzKapcsNev.addClass('hidden');
+        penzKapcsTel.addClass('hidden');
+        penzKapcsEmail.addClass('hidden');
+        teljesNev.removeClass('hidden');
+        anyjaNeve.removeClass('hidden');
+        szuletesiIdo.removeClass('hidden');
         $('#edit-field-muvesznev').removeClass('hidden');
     }
     else{
-        $('#edit-field-cegnev').removeClass('hidden');
-        $('#edit-field-ceg-jogosult').removeClass('hidden');
-        $('#edit-field-adoszam').removeClass('hidden');
+        cegnev.removeClass('hidden');
+        cegJogosult.removeClass('hidden');
+        adoszam.removeClass('hidden');
 //        $('#edit-field-bankszamla').removeClass('hidden');
-        $('#edit-field-penzugyi-kapcsolat-neve').removeClass('hidden');
-        $('#edit-field-penzugyi-kapcsolat-tel').removeClass('hidden');
-        $('#edit-field-penzugyi-kapcsolat-email').removeClass('hidden');
-        $('#edit-field-teljes-nev').addClass('hidden');
-        $('#edit-field-anyja-neve').addClass('hidden');
-        $('#edit-field-szuletesi-ido').addClass('hidden');
+        penzKapcsNev.removeClass('hidden');
+        penzKapcsTel.removeClass('hidden');
+        penzKapcsEmail.removeClass('hidden');
+        teljesNev.addClass('hidden');
+        anyjaNeve.addClass('hidden');
+        szuletesiIdo.addClass('hidden');
         $('#edit-field-muvesznev').addClass('hidden');
-        $('#edit-field-bankszamla').find('label').append('<span class="form-required" id="szlareq" title="Szükséges mező.">*</span>');
+        legyenKotelezo($('#edit-field-bankszamla').find('label'), 'szlareq');
 
     }
     //copy for now :(
     $('#edit-field-regisztralo-szemelye-und').change(function(){
         if($('#edit-field-regisztralo-szemelye-und').val() === 'magan'){
-            $('#edit-field-cegnev').addClass('hidden');
-            $('#edit-field-ceg-jogosult').addClass('hidden');
-            $('#edit-field-adoszam').addClass('hidden');
+            cegnev.addClass('hidden');
+            cegJogosult.addClass('hidden');
+            adoszam.addClass('hidden');
 //            $('#edit-field-bankszamla').addClass('hidden');
-            $('#edit-field-penzugyi-kapcsolat-neve').addClass('hidden');
-            $('#edit-field-penzugyi-kapcsolat-tel').addClass('hidden');
-            $('#edit-field-penzugyi-kapcsolat-email').addClass('hidden');
-            $('#edit-field-teljes-nev').removeClass('hidden');
-            $('#edit-field-anyja-neve').removeClass('hidden');
-            $('#edit-field-szuletesi-ido').removeClass('hidden');
+            penzKapcsNev.addClass('hidden');
+            penzKapcsTel.addClass('hidden');
+            penzKapcsEmail.addClass('hidden');
+            teljesNev.removeClass('hidden');
+            anyjaNeve.removeClass('hidden');
+            szuletesiIdo.removeClass('hidden');
             $('#edit-field-muvesznev').removeClass('hidden');
             $('#szlareq').remove();
         }
         else{
-            $('#edit-field-cegnev').removeClass('hidden');
-            $('#edit-field-ceg-jogosult').removeClass('hidden');
-            $('#edit-field-adoszam').removeClass('hidden');
+            cegnev.removeClass('hidden');
+            cegJogosult.removeClass('hidden');
+            adoszam.removeClass('hidden');
 //            $('#edit-field-bankszamla').removeClass('hidden');
-            $('#edit-field-penzugyi-kapcsolat-neve').removeClass('hidden');
-            $('#edit-field-penzugyi-kapcsolat-tel').removeClass('hidden');
-            $('#edit-field-penzugyi-kapcsolat-email').removeClass('hidden');
-            $('#edit-field-teljes-nev').addClass('hidden');
-            $('#edit-field-anyja-neve').addClass('hidden');
-            $('#edit-field-szuletesi-ido').addClass('hidden');
+            penzKapcsNev.removeClass('hidden');
+            penzKapcsTel.removeClass('hidden');
+            penzKapcsEmail.removeClass('hidden');
+            teljesNev.addClass('hidden');
+            anyjaNeve.addClass('hidden');
+            szuletesiIdo.addClass('hidden');
             $('#edit-field-muvesznev').addClass('hidden');
 
             //nullázni kell a részleges dátumot, mert gondot okoz, ha közben cégre vált
@@ -116,10 +152,10 @@ Drupal.behaviors.mahasz_js_regform = function ($){
                 $('#edit-field-szuletesi-ido-und-0-value-day').val().length==0){
                 
                 $('#edit-field-szuletesi-ido-und-0-value-year').val('');
-                $('#edit-field-szuletesi-ido-und-0-value-year').val('');
-                $('#edit-field-szuletesi-ido-und-0-value-year').val('');
+                $('#edit-field-szuletesi-ido-und-0-value-month').val('');
+                $('#edit-field-szuletesi-ido-und-0-value-day').val('');
             }
-            $('#edit-field-bankszamla').find('label').append('<span class="form-required" id="szlareq" title="Szükséges mező.">*</span>');
+            legyenKotelezo($('#edit-field-bankszamla').find('label'), 'szlareq');
         } 
     });
 
@@ -131,7 +167,7 @@ Drupal.behaviors.mahasz_js_regform = function ($){
         if($(this).is(':checked')){
             $('#edit-field-kapcsolattarto-neve-und-0-value').val(
                 ($('#edit-field-regisztralo-szemelye-und').val() === 'magan')?
-                    $('#edit-field-teljes-nev-und-0-value').val() :
+                    teljesNevInput.val() :
                     $('#edit-field-cegnev-und-0-value').val()
             );
             $('#edit-field-kapcsolattart-telefon-und-0-value').val($('#edit-field-telefon-und-0-value').val());
@@ -140,7 +176,7 @@ Drupal.behaviors.mahasz_js_regform = function ($){
         };
     });
     //change any of theese fields unchecks the copy checkbox
-    $('#edit-field-teljes-nev-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
+    teljesNevInput.change(function(){kapcsChbox.attr('checked', false);});
     $('#edit-field-cegnev-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
     $('#edit-field-telefon-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
     $('#edit-field-email-und-0-email').change(function(){kapcsChbox.attr('checked', false);});
@@ -149,13 +185,13 @@ Drupal.behaviors.mahasz_js_regform = function ($){
     $('#edit-field-kapcsolattarto-email-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
 
     //Levelezési cím megegyezik? Adatmásolás.
-    $('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel').change(function(){
+    egyezikFentiCim.change(function(){
         if($(this).is(':checked')){
             //csak az üres levelezési nevet töltjük fel névvel
             if( $('#edit-field-posta-nev-und-0-value').val() === '' ){
                 $('#edit-field-posta-nev-und-0-value').val(
                     ($('#edit-field-regisztralo-szemelye-und').val() === 'magan')?
-                        $('#edit-field-teljes-nev-und-0-value').val() :
+                        teljesNevInput.val() :
                         $('#edit-field-cegnev-und-0-value').val()
                 );
             }
@@ -167,26 +203,26 @@ Drupal.behaviors.mahasz_js_regform = function ($){
     });
 
     //change any of theese fields unchecks the copy checkbox
-    $('#edit-field-orszag-und').change(function(){$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel').attr('checked', false);});
-    $('#edit-field-iranyitoszam-und-0-value').change(function(){$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel').attr('checked', false);});
-    $('#edit-field-varos-und-0-value').change(function(){$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel').attr('checked', false);});
-    $('#edit-field-utca-und-0-value').change(function(){$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel').attr('checked', false);});
-    $('#edit-field-posta-orszag-und').change(function(){$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel').attr('checked', false);});
-    $('#edit-field-posta-iranyitoszam-und-0-value').change(function(){$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel').attr('checked', false);});
-    $('#edit-field-posta-varos-und-0-value').change(function(){$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel').attr('checked', false);});
-    $('#edit-field-posta-utca-und-0-value').change(function(){$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel').attr('checked', false);});
+    $('#edit-field-orszag-und').change(function(){egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-iranyitoszam-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-varos-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-utca-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-posta-orszag-und').change(function(){egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-posta-iranyitoszam-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-posta-varos-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-posta-utca-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
 
 
     //Hide duplicate error messages
     //these are set in php field_validations (ex.: <span class="error-msg-field-anyja-neve">„[field-name]” mezőt ki kell tölteni.</span>)
     if(regErr = $('.messages.error')){
-        $('#edit-field-teljes-nev.hidden').length>0 && $('.error-msg-field-teljes-nev').parent().hide();
-        $('#edit-field-cegnev.hidden').length>0 && $('.error-msg-field-cegnev').parent().hide();
-        $('#edit-field-ceg-jogosult.hidden').length>0 && $('.error-msg-field-ceg-jogosult').parent().hide();
-        $('#edit-field-anyja-neve.hidden').length>0 && $('.error-msg-field-anyja-neve').parent().hide();
+        teljesNev.filter('hidden').length>0 && $('.error-msg-field-teljes-nev').parent().hide();
+        cegnev.filter('hidden').length>0 && $('.error-msg-field-cegnev').parent().hide();
+        cegJogosult.filter('hidden').length>0 && $('.error-msg-field-ceg-jogosult').parent().hide();
+        anyjaNeve.filter('hidden').length>0 && $('.error-msg-field-anyja-neve').parent().hide();
         $('#edit-field-bankszamla.hidden').length>0 && $('.error-msg-field-bankszamla').parent().hide();
-        $('#edit-field-adoszam.hidden').length>0 && $('.error-msg-field-adoszam').parent().hide();
-        $('#edit-field-szuletesi-ido.hidden').length>0 && $('.error-msg-field-szuletesi-ido').parent().hide();
+        adoszam.filter('.hidden').length>0 && $('.error-msg-field-adoszam').parent().hide();
+        szuletesiIdo.filter('.hidden').length>0 && $('.error-msg-field-szuletesi-ido').parent().hide();
         $('#edit-field-bankszamla.hidden').length>0 && $('.error-msg-field-bankszamla').parent().hide();
     }
 
