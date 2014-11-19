@@ -16,10 +16,13 @@ Drupal.behaviors.mahasz_js_regform = function ($){
         teljesNevInput =jQuery('#edit-field-teljes-nev-und-0-value'),
         anyjaNeve =     jQuery('#edit-field-anyja-neve'),
         szuletesiIdo =  jQuery('#edit-field-szuletesi-ido'),
+        muvesznev =     jQuery('#edit-field-muvesznev'),
+        bankszamla =     jQuery('#edit-field-bankszamla'),
         penzKapcsNev =  jQuery('#edit-field-penzugyi-kapcsolat-neve'),
         penzKapcsTel =  jQuery('#edit-field-penzugyi-kapcsolat-tel'),
         penzKapcsEmail =jQuery('#edit-field-penzugyi-kapcsolat-email'),
         egyezikFentiCim=jQuery('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel'),
+        kapcsChbox =    jQuery('#edit-field-kapcs-megegyezik-und-megegyezik-a-fentiekkel'),
         placeholder  =  '';
 
 
@@ -76,74 +79,73 @@ Drupal.behaviors.mahasz_js_regform = function ($){
     djChbox.change(function(){setMagan();});
 
     //create copy of reg-szemely to store its data even it is disabled (not send in form data)
-    var mysrc = $('#edit-field-regisztralo-szemelye-und');
-    if(mysrc.length>0){
-        mysrc.parent().append('<input type="hidden" id="'+mysrc.attr('id')+'-copy'+'" \>');
-        var mytgt = $('#'+mysrc.attr('id')+'-copy');
-        mytgt.attr('name',mysrc.attr('name')).val(mysrc.val());
+    if(szemely.length>0){
+        szemely.parent().append('<input type="hidden" id="'+szemely.attr('id')+'-copy'+'" \>');
+        var mytgt = $('#'+szemely.attr('id')+'-copy');
+        mytgt.attr('name',szemely.attr('name')).val(szemely.val());
 
         //onchange, change the clone too
-        mysrc.change(function(){
-            mytgt.val(mysrc.val());
+        szemely.change(function(){
+            mytgt.val(szemely.val());
         });
     }
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
-    if( $('#edit-field-regisztralo-szemelye-und').val() === 'magan' ){
+    if( szemely.val() === 'magan' ){
         cegnev.addClass('hidden');
         cegJogosult.addClass('hidden');
         adoszam.addClass('hidden');
-//        $('#edit-field-bankszamla').addClass('hidden');
+//        bankszamla.addClass('hidden');
         penzKapcsNev.addClass('hidden');
         penzKapcsTel.addClass('hidden');
         penzKapcsEmail.addClass('hidden');
         teljesNev.removeClass('hidden');
         anyjaNeve.removeClass('hidden');
         szuletesiIdo.removeClass('hidden');
-        $('#edit-field-muvesznev').removeClass('hidden');
+        muvesznev.removeClass('hidden');
     }
     else{
         cegnev.removeClass('hidden');
         cegJogosult.removeClass('hidden');
         adoszam.removeClass('hidden');
-//        $('#edit-field-bankszamla').removeClass('hidden');
+//        bankszamla.removeClass('hidden');
         penzKapcsNev.removeClass('hidden');
         penzKapcsTel.removeClass('hidden');
         penzKapcsEmail.removeClass('hidden');
         teljesNev.addClass('hidden');
         anyjaNeve.addClass('hidden');
         szuletesiIdo.addClass('hidden');
-        $('#edit-field-muvesznev').addClass('hidden');
-        legyenKotelezo($('#edit-field-bankszamla').find('label'), 'szlareq');
+        muvesznev.addClass('hidden');
+        legyenKotelezo(bankszamla.find('label'), 'szlareq');
 
     }
     //copy for now :(
-    $('#edit-field-regisztralo-szemelye-und').change(function(){
-        if($('#edit-field-regisztralo-szemelye-und').val() === 'magan'){
+    szemely.change(function(){
+        if(szemely.val() === 'magan'){
             cegnev.addClass('hidden');
             cegJogosult.addClass('hidden');
             adoszam.addClass('hidden');
-//            $('#edit-field-bankszamla').addClass('hidden');
+//            bankszamla.addClass('hidden');
             penzKapcsNev.addClass('hidden');
             penzKapcsTel.addClass('hidden');
             penzKapcsEmail.addClass('hidden');
             teljesNev.removeClass('hidden');
             anyjaNeve.removeClass('hidden');
             szuletesiIdo.removeClass('hidden');
-            $('#edit-field-muvesznev').removeClass('hidden');
+            muvesznev.removeClass('hidden');
             $('#szlareq').remove();
         }
         else{
             cegnev.removeClass('hidden');
             cegJogosult.removeClass('hidden');
             adoszam.removeClass('hidden');
-//            $('#edit-field-bankszamla').removeClass('hidden');
+//            bankszamla.removeClass('hidden');
             penzKapcsNev.removeClass('hidden');
             penzKapcsTel.removeClass('hidden');
             penzKapcsEmail.removeClass('hidden');
             teljesNev.addClass('hidden');
             anyjaNeve.addClass('hidden');
             szuletesiIdo.addClass('hidden');
-            $('#edit-field-muvesznev').addClass('hidden');
+            muvesznev.addClass('hidden');
 
             //nullázni kell a részleges dátumot, mert gondot okoz, ha közben cégre vált
             if( //részleges?
@@ -155,18 +157,17 @@ Drupal.behaviors.mahasz_js_regform = function ($){
                 $('#edit-field-szuletesi-ido-und-0-value-month').val('');
                 $('#edit-field-szuletesi-ido-und-0-value-day').val('');
             }
-            legyenKotelezo($('#edit-field-bankszamla').find('label'), 'szlareq');
+            legyenKotelezo(bankszamla.find('label'), 'szlareq');
         } 
     });
 
 
 
     //Kapcsolattartó megegyezik? Adatmásolás.
-    kapcsChbox = $('#edit-field-kapcs-megegyezik-und-megegyezik-a-fentiekkel');
     kapcsChbox.change(function(){
         if($(this).is(':checked')){
             $('#edit-field-kapcsolattarto-neve-und-0-value').val(
-                ($('#edit-field-regisztralo-szemelye-und').val() === 'magan')?
+                (szemely.val() === 'magan')?
                     teljesNevInput.val() :
                     $('#edit-field-cegnev-und-0-value').val()
             );
@@ -190,7 +191,7 @@ Drupal.behaviors.mahasz_js_regform = function ($){
             //csak az üres levelezési nevet töltjük fel névvel
             if( $('#edit-field-posta-nev-und-0-value').val() === '' ){
                 $('#edit-field-posta-nev-und-0-value').val(
-                    ($('#edit-field-regisztralo-szemelye-und').val() === 'magan')?
+                    (szemely.val() === 'magan')?
                         teljesNevInput.val() :
                         $('#edit-field-cegnev-und-0-value').val()
                 );
