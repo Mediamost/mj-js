@@ -6,8 +6,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     /*
      *      Cache jQuery objects
      */
-    var editMail =      jQuery('#edit-mail'),        
-        szemely =       jQuery('#edit-field-regisztralo-szemelye-und'),
+    var szemely =       jQuery('#edit-field-regisztralo-szemelye-und'),
         cegnev =        jQuery('#edit-field-cegnev'),
         cegnevInput =   jQuery('#edit-field-cegnev-und-0-value'),
         cegJogosult =   jQuery('#edit-field-ceg-jogosult'),
@@ -72,7 +71,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //hide unneeded labels
     $('#edit-field-megegyezik label').eq(0).addClass('hidden');
     $('#edit-field-kapcs-megegyezik label').eq(0).addClass('hidden');
-    $djszovGroup = $djszovGroup || jQuery('#user_user_form_group_djszovetseg');
+    var $djszovGroup = $djszovGroup || jQuery('#user_user_form_group_djszovetseg');
     $djszovGroup.find('label').eq(0).addClass('hidden');
 
     //disable reg-szemely (and change, and trigger its change) if DJ is checked already
@@ -255,17 +254,18 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         if($(this).is(':checked')){
             $djszovChbox.attr('checked', false);
             //nincs email? kérni, pipa ki.
-            if( editMail.val().indexOf('@') < 1 ){
+            var $$editMail = $editMai || $jQuery('#edit-mail');
+            if( $editMail.val().indexOf('@') < 1 ){
                 $djszovChbox.attr('checked', false);
                 $djszovInfo.css('color','red').html('Kérjük adja meg előbb az e-mail címét!');
-                editMail.addClass('error');
+                $editMail.addClass('error');
             }
             else{
-                editMail.removeClass('error');
+                $editMail.removeClass('error');
                 //karika animáció be
                 $djszovInfo.css('color','inherit').html('Tagság lekérdezése...');
                 //lekérdezés indul
-                $.getJSON("/misc/djsz.php?email=" + editMail.val(), function(json) {
+                $.getJSON("/misc/djsz.php?email=" + $editMail.val(), function(json) {
                     //eredményt kiírni karika helyére, ... ?
                     if(json.tagsag === 'IGEN'){
                         /*lejárt tagság nem tagság
