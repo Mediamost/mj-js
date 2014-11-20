@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        szuletesiIdo =  $('#edit-field-szuletesi-ido'),
         muvesznev =     $('#edit-field-muvesznev'),
         bankszamla =     $('#edit-field-bankszamla'),
         penzKapcsNev =  $('#edit-field-penzugyi-kapcsolat-neve'),
@@ -58,8 +57,9 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         addStar($teljesNev.find('label'));
         $anyjaNeve = $anyjaNeve || $('#edit-field-anyja-neve');
         addStar($anyjaNeve.find('label'));
-        addStar(szuletesiIdo.find('.fieldset-legend'));
-        //addStar(szuletesiIdo.find('label'));
+        $szuletesiIdo = $szuletesiIdo || $('#edit-field-szuletesi-ido');
+        addStar($szuletesiIdo.find('.fieldset-legend'));
+        //addStar($szuletesiIdo.find('label'));
     })();
 
     //mark errors on parents of checkboxes, radios
@@ -97,6 +97,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     var $adoszam = $adoszam || $('#edit-field-adoszam');
     var $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
     var $anyjaNeve = $anyjaNeve || $('#edit-field-anyja-neve');
+    var $szuletesiIdo = $szuletesiIdo || $('#edit-field-szuletesi-ido');
     if( $szemely.val() === 'magan' ){
         $cegnev.addClass('hidden');
         $cegJogosult.addClass('hidden');
@@ -107,7 +108,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         penzKapcsEmail.addClass('hidden');
         $teljesNev.removeClass('hidden');
         $anyjaNeve.removeClass('hidden');
-        szuletesiIdo.removeClass('hidden');
+        $szuletesiIdo.removeClass('hidden');
         muvesznev.removeClass('hidden');
     }
     else{
@@ -120,7 +121,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         penzKapcsEmail.removeClass('hidden');
         $teljesNev.addClass('hidden');
         $anyjaNeve.addClass('hidden');
-        szuletesiIdo.addClass('hidden');
+        $szuletesiIdo.addClass('hidden');
         muvesznev.addClass('hidden');
         legyenKotelezo(bankszamla.find('label'), 'szlareq');
 
@@ -137,7 +138,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             penzKapcsEmail.addClass('hidden');
             $teljesNev.removeClass('hidden');
             $anyjaNeve.removeClass('hidden');
-            szuletesiIdo.removeClass('hidden');
+            $szuletesiIdo.removeClass('hidden');
             muvesznev.removeClass('hidden');
             $('#szlareq').remove();
         }
@@ -151,7 +152,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             penzKapcsEmail.removeClass('hidden');
             $teljesNev.addClass('hidden');
             $anyjaNeve.addClass('hidden');
-            szuletesiIdo.addClass('hidden');
+            $szuletesiIdo.addClass('hidden');
             muvesznev.addClass('hidden');
 
             //nullázni kell a részleges dátumot, mert gondot okoz, ha közben cégre vált
@@ -231,7 +232,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         $anyjaNeve.filter('hidden').length>0 && $('.error-msg-field-anyja-neve').parent().hide();
         $('#edit-field-bankszamla.hidden').length>0 && $('.error-msg-field-bankszamla').parent().hide();
         $adoszam.filter('.hidden').length>0 && $('.error-msg-field-adoszam').parent().hide();
-        szuletesiIdo.filter('.hidden').length>0 && $('.error-msg-field-szuletesi-ido').parent().hide();
+        $szuletesiIdo.filter('.hidden').length>0 && $('.error-msg-field-szuletesi-ido').parent().hide();
         $('#edit-field-bankszamla.hidden').length>0 && $('.error-msg-field-bankszamla').parent().hide();
     }
 
