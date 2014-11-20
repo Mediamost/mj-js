@@ -6,8 +6,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     /*
      *      Cache jQuery objects
      */
-    var szemely =       jQuery('#edit-field-regisztralo-szemelye-und'),
-        cegnev =        jQuery('#edit-field-cegnev'),
+    var cegnev =        jQuery('#edit-field-cegnev'),
         cegnevInput =   jQuery('#edit-field-cegnev-und-0-value'),
         cegJogosult =   jQuery('#edit-field-ceg-jogosult'),
         adoszam =       jQuery('#edit-field-adoszam'),
@@ -31,11 +30,12 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      */
     var setMagan = function (){
         $djChbox = $djChbox || jQuery('#edit-field-jogi-csoport-und-dj');
+        $szemely = $szemely || jQuery('#edit-field-regisztralo-szemelye-und');
         if($djChbox.is(':checked')){
-            szemely.val('magan').attr('disabled','disabled').trigger('change');
+            $szemely.val('magan').attr('disabled','disabled').trigger('change');
         }
         else{
-            szemely.removeAttr('disabled');
+            $szemely.removeAttr('disabled');
         }
     };
 
@@ -81,18 +81,19 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     $djChbox.change(function(){setMagan();});
 
     //create copy of reg-szemely to store its data even it is disabled (not send in form data)
-    if(szemely.length>0){
-        szemely.parent().append('<input type="hidden" id="'+szemely.attr('id')+'-copy'+'" />');
-        var mytgt = $('#'+szemely.attr('id')+'-copy');
-        mytgt.attr('name',szemely.attr('name')).val(szemely.val());
+    var $szemely = $szemely || jQuery('#edit-field-regisztralo-szemelye-und');
+    if($szemely.length>0){
+        $szemely.parent().append('<input type="hidden" id="'+$szemely.attr('id')+'-copy'+'" />');
+        var mytgt = $('#'+$szemely.attr('id')+'-copy');
+        mytgt.attr('name',$szemely.attr('name')).val($szemely.val());
 
         //onchange, change the clone too
-        szemely.change(function(){
-            mytgt.val(szemely.val());
+        $szemely.change(function(){
+            mytgt.val($szemely.val());
         });
     }
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
-    if( szemely.val() === 'magan' ){
+    if( $szemely.val() === 'magan' ){
         cegnev.addClass('hidden');
         cegJogosult.addClass('hidden');
         adoszam.addClass('hidden');
@@ -121,8 +122,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
 
     }
     //copy for now :(
-    szemely.change(function(){
-        if(szemely.val() === 'magan'){
+    $szemely.change(function(){
+        if($szemely.val() === 'magan'){
             cegnev.addClass('hidden');
             cegJogosult.addClass('hidden');
             adoszam.addClass('hidden');
@@ -169,7 +170,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     kapcsChbox.change(function(){
         if($(this).is(':checked')){
             $('#edit-field-kapcsolattarto-neve-und-0-value').val(
-                (szemely.val() === 'magan')?
+                ($szemely.val() === 'magan')?
                     teljesNevInput.val() :
                     cegnevInput.val()
             );
@@ -193,7 +194,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             //csak az üres levelezési nevet töltjük fel névvel
             if( $('#edit-field-posta-nev-und-0-value').val() === '' ){
                 $('#edit-field-posta-nev-und-0-value').val(
-                    (szemely.val() === 'magan')?
+                    ($szemely.val() === 'magan')?
                         teljesNevInput.val() :
                         cegnevInput.val()
                 );
