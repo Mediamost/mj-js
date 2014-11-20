@@ -6,10 +6,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     /*
      *      Cache jQuery objects
      */
-    var djChbox =       jQuery('#edit-field-jogi-csoport-und-dj'),
-        djszov =        jQuery('#edit-field-dj-szovetseg'),
-        djszovChbox =   djszov.find('.form-checkbox'),
-        djszovInfo  =   jQuery('<p>').addClass('djszov-info'),
+    var djszovInfo  =   jQuery('<p>').addClass('djszov-info'),
         djszovGroup =   jQuery('#user_user_form_group_djszovetseg'),
         editMail =      jQuery('#edit-mail'),        
         szemely =       jQuery('#edit-field-regisztralo-szemelye-und'),
@@ -36,7 +33,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Ha DJ-t bepipálja, reg. személy legyen magán és letiltva
      */
     var setMagan = function (){
-        if(djChbox.is(':checked')){
+        $djChbox = $djChbox || jQuery('#edit-field-jogi-csoport-und-dj');
+        if($djChbox.is(':checked')){
             szemely.val('magan').attr('disabled','disabled').trigger('change');
         }
         else{
@@ -81,7 +79,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //disable reg-szemely (and change, and trigger its change) if DJ is checked already
     setMagan();
     //and when checked
-    djChbox.change(function(){setMagan();});
+    var $djChbox = $djChbox || jQuery('#edit-field-jogi-csoport-und-dj');
+    $djChbox.change(function(){setMagan();});
 
     //create copy of reg-szemely to store its data even it is disabled (not send in form data)
     if(szemely.length>0){
@@ -251,12 +250,13 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
 
     //meglévő checkbox változást figyelni, a bejelölt érdekes csak
     djszovGroup.find('label').eq(0).parent().prepend(djszovInfo);
-    djszovChbox.change(function(){
+    var $djszovChbox = $djszovChbox || jQuery('#edit-field-dj-szovetseg').find('.form-checkbox');
+    $djszovChbox.change(function(){
         if($(this).is(':checked')){
-            djszovChbox.attr('checked', false);
+            $djszovChbox.attr('checked', false);
             //nincs email? kérni, pipa ki.
             if( editMail.val().indexOf('@') < 1 ){
-                djszovChbox.attr('checked', false);
+                $djszovChbox.attr('checked', false);
                 djszovInfo.css('color','red').html('Kérjük adja meg előbb az e-mail címét!');
                 editMail.addClass('error');
             }
@@ -276,7 +276,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
 
                         }
                         else...*/
-                        djszovChbox.attr('checked', 'checked');
+                        $djszovChbox.attr('checked', 'checked');
                         djszovInfo.css({color:'green', fontWeight:'bold'}).html('Tagság rendben.');
                     }
                     else if(json.tagsag === 'NEM'){
