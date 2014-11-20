@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        cegJogosult =   $('#edit-field-ceg-jogosult'),
         adoszam =       $('#edit-field-adoszam'),
         teljesNev =     $('#edit-field-teljes-nev'),
         teljesNevInput =$('#edit-field-teljes-nev-und-0-value'),
@@ -55,7 +54,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         //mark some fields as required (as they really are, but not by form api)
         $cegnev = $cegnev || $('#edit-field-cegnev');
         addStar($cegnev.find('label'));
-        addStar(cegJogosult.find('label'));
+        $cegJogosult = $cegJogosult || $('#edit-field-ceg-jogosult');
+        addStar($cegJogosult.find('label'));
         addStar(adoszam.find('label'));
         addStar(teljesNev.find('label'));
         addStar(anyjaNeve.find('label'));
@@ -94,9 +94,10 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     }
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
     var $cegnev = $cegnev || $('#edit-field-cegnev');
+    var $cegJogosult = cegJogosult || $('#edit-field-ceg-jogosult');
     if( $szemely.val() === 'magan' ){
         $cegnev.addClass('hidden');
-        cegJogosult.addClass('hidden');
+        $cegJogosult.addClass('hidden');
         adoszam.addClass('hidden');
 //        bankszamla.addClass('hidden');
         penzKapcsNev.addClass('hidden');
@@ -109,7 +110,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     }
     else{
         $cegnev.removeClass('hidden');
-        cegJogosult.removeClass('hidden');
+        $cegJogosult.removeClass('hidden');
         adoszam.removeClass('hidden');
 //        bankszamla.removeClass('hidden');
         penzKapcsNev.removeClass('hidden');
@@ -126,7 +127,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     $szemely.change(function(){
         if($szemely.val() === 'magan'){
             $cegnev.addClass('hidden');
-            cegJogosult.addClass('hidden');
+            $cegJogosult.addClass('hidden');
             adoszam.addClass('hidden');
 //            bankszamla.addClass('hidden');
             penzKapcsNev.addClass('hidden');
@@ -140,7 +141,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         }
         else{
             $cegnev.removeClass('hidden');
-            cegJogosult.removeClass('hidden');
+            $cegJogosult.removeClass('hidden');
             adoszam.removeClass('hidden');
 //            bankszamla.removeClass('hidden');
             penzKapcsNev.removeClass('hidden');
@@ -219,7 +220,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     if(regErr){
         teljesNev.filter('hidden').length>0 && $('.error-msg-field-teljes-nev').parent().hide();
         $cegnev.filter('hidden').length>0 && $('.error-msg-field-cegnev').parent().hide();
-        cegJogosult.filter('hidden').length>0 && $('.error-msg-field-ceg-jogosult').parent().hide();
+        $cegJogosult.filter('hidden').length>0 && $('.error-msg-field-ceg-jogosult').parent().hide();
         anyjaNeve.filter('hidden').length>0 && $('.error-msg-field-anyja-neve').parent().hide();
         $('#edit-field-bankszamla.hidden').length>0 && $('.error-msg-field-bankszamla').parent().hide();
         adoszam.filter('.hidden').length>0 && $('.error-msg-field-adoszam').parent().hide();
