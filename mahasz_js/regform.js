@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        penzKapcsTel =  $('#edit-field-penzugyi-kapcsolat-tel'),
         penzKapcsEmail =$('#edit-field-penzugyi-kapcsolat-email'),
         egyezikFentiCim=$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel'),
         kapcsChbox =    $('#edit-field-kapcs-megegyezik-und-megegyezik-a-fentiekkel'),
@@ -98,13 +97,14 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     var $muvesznev = $muvesznev || $('#edit-field-muvesznev');
     var $bankszamla = $bankszamla || $('#edit-field-bankszamla');
     var $penzKapcsNev = $penzKapcsNev || $('#edit-field-penzugyi-kapcsolat-neve');
+    var $penzKapcsTel = $penzKapcsTel || $('#edit-field-penzugyi-kapcsolat-tel');
     if( $szemely.val() === 'magan' ){
         $cegnev.addClass('hidden');
         $cegJogosult.addClass('hidden');
         $adoszam.addClass('hidden');
 //        $bankszamla.addClass('hidden');
         $penzKapcsNev.addClass('hidden');
-        penzKapcsTel.addClass('hidden');
+        $penzKapcsTel.addClass('hidden');
         penzKapcsEmail.addClass('hidden');
         $teljesNev.removeClass('hidden');
         $anyjaNeve.removeClass('hidden');
@@ -117,7 +117,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         $adoszam.removeClass('hidden');
 //        $bankszamla.removeClass('hidden');
         $penzKapcsNev.removeClass('hidden');
-        penzKapcsTel.removeClass('hidden');
+        $penzKapcsTel.removeClass('hidden');
         penzKapcsEmail.removeClass('hidden');
         $teljesNev.addClass('hidden');
         $anyjaNeve.addClass('hidden');
@@ -134,7 +134,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             $adoszam.addClass('hidden');
 //            $bankszamla.addClass('hidden');
             $penzKapcsNev.addClass('hidden');
-            penzKapcsTel.addClass('hidden');
+            $penzKapcsTel.addClass('hidden');
             penzKapcsEmail.addClass('hidden');
             $teljesNev.removeClass('hidden');
             $anyjaNeve.removeClass('hidden');
@@ -148,7 +148,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             $adoszam.removeClass('hidden');
 //            $bankszamla.removeClass('hidden');
             $penzKapcsNev.removeClass('hidden');
-            penzKapcsTel.removeClass('hidden');
+            $penzKapcsTel.removeClass('hidden');
             penzKapcsEmail.removeClass('hidden');
             $teljesNev.addClass('hidden');
             $anyjaNeve.addClass('hidden');
