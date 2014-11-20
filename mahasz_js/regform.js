@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        cegnevInput =   $('#edit-field-cegnev-und-0-value'),
         cegJogosult =   $('#edit-field-ceg-jogosult'),
         adoszam =       $('#edit-field-adoszam'),
         teljesNev =     $('#edit-field-teljes-nev'),
@@ -171,7 +170,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //Kapcsolattartó megegyezik? Adatmásolás.
     kapcsChbox.change(function(){
         if($(this).is(':checked')){
-            $('#edit-field-kapcsolattarto-neve-und-0-value').val( ($szemely.val() === 'magan') ? teljesNevInput.val() : cegnevInput.val() );
+            var $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
+            $('#edit-field-kapcsolattarto-neve-und-0-value').val( ($szemely.val() === 'magan') ? teljesNevInput.val() : $cegnevInput.val() );
             $('#edit-field-kapcsolattart-telefon-und-0-value').val($('#edit-field-telefon-und-0-value').val());
             $('#edit-field-kapcsolattarto-email-und-0-value').val($('#edit-field-email-und-0-email').val());
             $('#edit-mail').val($('#edit-field-email-und-0-email').val());
@@ -179,7 +179,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     });
     //change any of theese fields unchecks the copy checkbox
     teljesNevInput.change(function(){kapcsChbox.attr('checked', false);});
-    cegnevInput.change(function(){kapcsChbox.attr('checked', false);});
+    var $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
+    $cegnevInput.change(function(){kapcsChbox.attr('checked', false);});
     $('#edit-field-telefon-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
     $('#edit-field-email-und-0-email').change(function(){kapcsChbox.attr('checked', false);});
     $('#edit-field-kapcsolattarto-neve-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
@@ -191,11 +192,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         if($(this).is(':checked')){
             //csak az üres levelezési nevet töltjük fel névvel
             if( $('#edit-field-posta-nev-und-0-value').val() === '' ){
-                $('#edit-field-posta-nev-und-0-value').val(
-                    ($szemely.val() === 'magan')?
-                        teljesNevInput.val() :
-                        cegnevInput.val()
-                );
+                $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
+                $('#edit-field-posta-nev-und-0-value').val( ($szemely.val() === 'magan') ? teljesNevInput.val() : $cegnevInput.val() );
             }
             $('#edit-field-posta-orszag-und').val($('#edit-field-orszag-und').val());
             $('#edit-field-posta-iranyitoszam-und-0-value').val($('#edit-field-iranyitoszam-und-0-value').val());
