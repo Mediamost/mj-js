@@ -7,20 +7,20 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        cegnevInput =   jQuery('#edit-field-cegnev-und-0-value'),
-        cegJogosult =   jQuery('#edit-field-ceg-jogosult'),
-        adoszam =       jQuery('#edit-field-adoszam'),
-        teljesNev =     jQuery('#edit-field-teljes-nev'),
-        teljesNevInput =jQuery('#edit-field-teljes-nev-und-0-value'),
-        anyjaNeve =     jQuery('#edit-field-anyja-neve'),
-        szuletesiIdo =  jQuery('#edit-field-szuletesi-ido'),
-        muvesznev =     jQuery('#edit-field-muvesznev'),
-        bankszamla =     jQuery('#edit-field-bankszamla'),
-        penzKapcsNev =  jQuery('#edit-field-penzugyi-kapcsolat-neve'),
-        penzKapcsTel =  jQuery('#edit-field-penzugyi-kapcsolat-tel'),
-        penzKapcsEmail =jQuery('#edit-field-penzugyi-kapcsolat-email'),
-        egyezikFentiCim=jQuery('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel'),
-        kapcsChbox =    jQuery('#edit-field-kapcs-megegyezik-und-megegyezik-a-fentiekkel'),
+        cegnevInput =   $('#edit-field-cegnev-und-0-value'),
+        cegJogosult =   $('#edit-field-ceg-jogosult'),
+        adoszam =       $('#edit-field-adoszam'),
+        teljesNev =     $('#edit-field-teljes-nev'),
+        teljesNevInput =$('#edit-field-teljes-nev-und-0-value'),
+        anyjaNeve =     $('#edit-field-anyja-neve'),
+        szuletesiIdo =  $('#edit-field-szuletesi-ido'),
+        muvesznev =     $('#edit-field-muvesznev'),
+        bankszamla =     $('#edit-field-bankszamla'),
+        penzKapcsNev =  $('#edit-field-penzugyi-kapcsolat-neve'),
+        penzKapcsTel =  $('#edit-field-penzugyi-kapcsolat-tel'),
+        penzKapcsEmail =$('#edit-field-penzugyi-kapcsolat-email'),
+        egyezikFentiCim=$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel'),
+        kapcsChbox =    $('#edit-field-kapcs-megegyezik-und-megegyezik-a-fentiekkel'),
         placeholder  =  '';
 
 
@@ -29,8 +29,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Ha DJ-t bepipálja, reg. személy legyen magán és letiltva
      */
     var setMagan = function (){
-        $djChbox = $djChbox || jQuery('#edit-field-jogi-csoport-und-dj');
-        $szemely = $szemely || jQuery('#edit-field-regisztralo-szemelye-und');
+        $djChbox = $djChbox || $('#edit-field-jogi-csoport-und-dj');
+        $szemely = $szemely || $('#edit-field-regisztralo-szemelye-und');
         if($djChbox.is(':checked')){
             $szemely.val('magan').attr('disabled','disabled').trigger('change');
         }
@@ -54,7 +54,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      */
     (function() {
         //mark some fields as required (as they really are, but not by form api)
-        $cegnev = $cegnev || jQuery('#edit-field-cegnev');
+        $cegnev = $cegnev || $('#edit-field-cegnev');
         addStar($cegnev.find('label'));
         addStar(cegJogosult.find('label'));
         addStar(adoszam.find('label'));
@@ -72,17 +72,17 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //hide unneeded labels
     $('#edit-field-megegyezik label').eq(0).addClass('hidden');
     $('#edit-field-kapcs-megegyezik label').eq(0).addClass('hidden');
-    var $djszovGroup = $djszovGroup || jQuery('#user_user_form_group_djszovetseg');
+    var $djszovGroup = $djszovGroup || $('#user_user_form_group_djszovetseg');
     $djszovGroup.find('label').eq(0).addClass('hidden');
 
     //disable reg-szemely (and change, and trigger its change) if DJ is checked already
     setMagan();
     //and when checked
-    var $djChbox = $djChbox || jQuery('#edit-field-jogi-csoport-und-dj');
+    var $djChbox = $djChbox || $('#edit-field-jogi-csoport-und-dj');
     $djChbox.change(function(){setMagan();});
 
     //create copy of reg-szemely to store its data even it is disabled (not send in form data)
-    var $szemely = $szemely || jQuery('#edit-field-regisztralo-szemelye-und');
+    var $szemely = $szemely || $('#edit-field-regisztralo-szemelye-und');
     if($szemely.length>0){
         $szemely.parent().append('<input type="hidden" id="'+$szemely.attr('id')+'-copy'+'" />');
         var mytgt = $('#'+$szemely.attr('id')+'-copy');
@@ -94,7 +94,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         });
     }
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
-    var $cegnev = $cegnev || jQuery('#edit-field-cegnev');
+    var $cegnev = $cegnev || $('#edit-field-cegnev');
     if( $szemely.val() === 'magan' ){
         $cegnev.addClass('hidden');
         cegJogosult.addClass('hidden');
@@ -171,11 +171,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //Kapcsolattartó megegyezik? Adatmásolás.
     kapcsChbox.change(function(){
         if($(this).is(':checked')){
-            $('#edit-field-kapcsolattarto-neve-und-0-value').val(
-                ($szemely.val() === 'magan')?
-                    teljesNevInput.val() :
-                    cegnevInput.val()
-            );
+            $('#edit-field-kapcsolattarto-neve-und-0-value').val( ($szemely.val() === 'magan') ? teljesNevInput.val() : cegnevInput.val() );
             $('#edit-field-kapcsolattart-telefon-und-0-value').val($('#edit-field-telefon-und-0-value').val());
             $('#edit-field-kapcsolattarto-email-und-0-value').val($('#edit-field-email-und-0-email').val());
             $('#edit-mail').val($('#edit-field-email-und-0-email').val());
@@ -250,14 +246,14 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     });
 
     //meglévő checkbox változást figyelni, a bejelölt érdekes csak
-    var $djszovInfo = $djszovInfo || jQuery('<p>').addClass('djszov-info');
+    var $djszovInfo = $djszovInfo || $('<p>').addClass('djszov-info');
     $djszovGroup.find('label').eq(0).parent().prepend($djszovInfo);
-    var $djszovChbox = $djszovChbox || jQuery('#edit-field-dj-szovetseg').find('.form-checkbox');
+    var $djszovChbox = $djszovChbox || $('#edit-field-dj-szovetseg').find('.form-checkbox');
     $djszovChbox.change(function(){
         if($(this).is(':checked')){
             $djszovChbox.attr('checked', false);
             //nincs email? kérni, pipa ki.
-            var $$editMail = $editMai || $jQuery('#edit-mail');
+            var $editMail = $editMai || $('#edit-mail');
             if( $editMail.val().indexOf('@') < 1 ){
                 $djszovChbox.attr('checked', false);
                 $djszovInfo.css('color','red').html('Kérjük adja meg előbb az e-mail címét!');
