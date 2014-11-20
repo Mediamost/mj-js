@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        bankszamla =     $('#edit-field-bankszamla'),
         penzKapcsNev =  $('#edit-field-penzugyi-kapcsolat-neve'),
         penzKapcsTel =  $('#edit-field-penzugyi-kapcsolat-tel'),
         penzKapcsEmail =$('#edit-field-penzugyi-kapcsolat-email'),
@@ -97,12 +96,13 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     var $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
     var $anyjaNeve = $anyjaNeve || $('#edit-field-anyja-neve');
     var $szuletesiIdo = $szuletesiIdo || $('#edit-field-szuletesi-ido');
-    var muvesznev = $muvesznev || $('#edit-field-muvesznev');
+    var $muvesznev = $muvesznev || $('#edit-field-muvesznev');
+    var $bankszamla = $bankszamla || $('#edit-field-bankszamla');
     if( $szemely.val() === 'magan' ){
         $cegnev.addClass('hidden');
         $cegJogosult.addClass('hidden');
         $adoszam.addClass('hidden');
-//        bankszamla.addClass('hidden');
+//        $bankszamla.addClass('hidden');
         penzKapcsNev.addClass('hidden');
         penzKapcsTel.addClass('hidden');
         penzKapcsEmail.addClass('hidden');
@@ -115,7 +115,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         $cegnev.removeClass('hidden');
         $cegJogosult.removeClass('hidden');
         $adoszam.removeClass('hidden');
-//        bankszamla.removeClass('hidden');
+//        $bankszamla.removeClass('hidden');
         penzKapcsNev.removeClass('hidden');
         penzKapcsTel.removeClass('hidden');
         penzKapcsEmail.removeClass('hidden');
@@ -123,7 +123,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         $anyjaNeve.addClass('hidden');
         $szuletesiIdo.addClass('hidden');
         $muvesznev.addClass('hidden');
-        legyenKotelezo(bankszamla.find('label'), 'szlareq');
+        legyenKotelezo($bankszamla.find('label'), 'szlareq');
 
     }
     //copy for now :(
@@ -132,7 +132,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             $cegnev.addClass('hidden');
             $cegJogosult.addClass('hidden');
             $adoszam.addClass('hidden');
-//            bankszamla.addClass('hidden');
+//            $bankszamla.addClass('hidden');
             penzKapcsNev.addClass('hidden');
             penzKapcsTel.addClass('hidden');
             penzKapcsEmail.addClass('hidden');
@@ -146,7 +146,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             $cegnev.removeClass('hidden');
             $cegJogosult.removeClass('hidden');
             $adoszam.removeClass('hidden');
-//            bankszamla.removeClass('hidden');
+//            $bankszamla.removeClass('hidden');
             penzKapcsNev.removeClass('hidden');
             penzKapcsTel.removeClass('hidden');
             penzKapcsEmail.removeClass('hidden');
@@ -165,7 +165,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
                 $('#edit-field-szuletesi-ido-und-0-value-month').val('');
                 $('#edit-field-szuletesi-ido-und-0-value-day').val('');
             }
-            legyenKotelezo(bankszamla.find('label'), 'szlareq');
+            legyenKotelezo($bankszamla.find('label'), 'szlareq');
         } 
     });
 
