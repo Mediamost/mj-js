@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        egyezikFentiCim=$('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel'),
         kapcsChbox =    $('#edit-field-kapcs-megegyezik-und-megegyezik-a-fentiekkel'),
         placeholder  =  '';
 
@@ -196,7 +195,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     $('#edit-field-kapcsolattarto-email-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
 
     //Levelezési cím megegyezik? Adatmásolás.
-    egyezikFentiCim.change(function(){
+    var $egyezikFentiCim = $egyezikFentiCim || $('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel');
+    $egyezikFentiCim.change(function(){
         if($(this).is(':checked')){
             //csak az üres levelezési nevet töltjük fel névvel
             if( $('#edit-field-posta-nev-und-0-value').val() === '' ){
@@ -212,14 +212,14 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     });
 
     //change any of theese fields unchecks the copy checkbox
-    $('#edit-field-orszag-und').change(function(){egyezikFentiCim.attr('checked', false);});
-    $('#edit-field-iranyitoszam-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
-    $('#edit-field-varos-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
-    $('#edit-field-utca-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
-    $('#edit-field-posta-orszag-und').change(function(){egyezikFentiCim.attr('checked', false);});
-    $('#edit-field-posta-iranyitoszam-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
-    $('#edit-field-posta-varos-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
-    $('#edit-field-posta-utca-und-0-value').change(function(){egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-orszag-und').change(function(){$egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-iranyitoszam-und-0-value').change(function(){$egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-varos-und-0-value').change(function(){$egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-utca-und-0-value').change(function(){$egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-posta-orszag-und').change(function(){$egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-posta-iranyitoszam-und-0-value').change(function(){$egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-posta-varos-und-0-value').change(function(){$egyezikFentiCim.attr('checked', false);});
+    $('#edit-field-posta-utca-und-0-value').change(function(){$egyezikFentiCim.attr('checked', false);});
 
 
     //Hide duplicate error messages
