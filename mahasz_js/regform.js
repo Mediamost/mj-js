@@ -6,7 +6,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     /*
      *      Cache jQuery objects
      */
-    var cegnev =        jQuery('#edit-field-cegnev'),
+    var 
         cegnevInput =   jQuery('#edit-field-cegnev-und-0-value'),
         cegJogosult =   jQuery('#edit-field-ceg-jogosult'),
         adoszam =       jQuery('#edit-field-adoszam'),
@@ -54,7 +54,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      */
     (function() {
         //mark some fields as required (as they really are, but not by form api)
-        addStar(cegnev.find('label'));
+        $cegnev = $cegnev || jQuery('#edit-field-cegnev');
+        addStar($cegnev.find('label'));
         addStar(cegJogosult.find('label'));
         addStar(adoszam.find('label'));
         addStar(teljesNev.find('label'));
@@ -93,8 +94,9 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         });
     }
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
+    var $cegnev = $cegnev || jQuery('#edit-field-cegnev');
     if( $szemely.val() === 'magan' ){
-        cegnev.addClass('hidden');
+        $cegnev.addClass('hidden');
         cegJogosult.addClass('hidden');
         adoszam.addClass('hidden');
 //        bankszamla.addClass('hidden');
@@ -107,7 +109,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         muvesznev.removeClass('hidden');
     }
     else{
-        cegnev.removeClass('hidden');
+        $cegnev.removeClass('hidden');
         cegJogosult.removeClass('hidden');
         adoszam.removeClass('hidden');
 //        bankszamla.removeClass('hidden');
@@ -124,7 +126,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //copy for now :(
     $szemely.change(function(){
         if($szemely.val() === 'magan'){
-            cegnev.addClass('hidden');
+            $cegnev.addClass('hidden');
             cegJogosult.addClass('hidden');
             adoszam.addClass('hidden');
 //            bankszamla.addClass('hidden');
@@ -138,7 +140,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             $('#szlareq').remove();
         }
         else{
-            cegnev.removeClass('hidden');
+            $cegnev.removeClass('hidden');
             cegJogosult.removeClass('hidden');
             adoszam.removeClass('hidden');
 //            bankszamla.removeClass('hidden');
@@ -222,7 +224,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     regErr = $('.messages.error');
     if(regErr){
         teljesNev.filter('hidden').length>0 && $('.error-msg-field-teljes-nev').parent().hide();
-        cegnev.filter('hidden').length>0 && $('.error-msg-field-cegnev').parent().hide();
+        $cegnev.filter('hidden').length>0 && $('.error-msg-field-cegnev').parent().hide();
         cegJogosult.filter('hidden').length>0 && $('.error-msg-field-ceg-jogosult').parent().hide();
         anyjaNeve.filter('hidden').length>0 && $('.error-msg-field-anyja-neve').parent().hide();
         $('#edit-field-bankszamla.hidden').length>0 && $('.error-msg-field-bankszamla').parent().hide();
