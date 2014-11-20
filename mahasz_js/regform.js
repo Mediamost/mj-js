@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        teljesNev =     $('#edit-field-teljes-nev'),
         teljesNevInput =$('#edit-field-teljes-nev-und-0-value'),
         anyjaNeve =     $('#edit-field-anyja-neve'),
         szuletesiIdo =  $('#edit-field-szuletesi-ido'),
@@ -57,7 +56,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         addStar($cegJogosult.find('label'));
         $adoszam = $adoszam || $('#edit-field-adoszam');
         addStar($adoszam.find('label'));
-        addStar(teljesNev.find('label'));
+        $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
+        addStar($teljesNev.find('label'));
         addStar(anyjaNeve.find('label'));
         addStar(szuletesiIdo.find('.fieldset-legend'));
         //addStar(szuletesiIdo.find('label'));
@@ -95,7 +95,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
     var $cegnev = $cegnev || $('#edit-field-cegnev');
     var $cegJogosult = $cegJogosult || $('#edit-field-ceg-jogosult');
-    var $adoszam = $adoszam || $('#edit-field-adoszam');;
+    var $adoszam = $adoszam || $('#edit-field-adoszam');
+    var $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
     if( $szemely.val() === 'magan' ){
         $cegnev.addClass('hidden');
         $cegJogosult.addClass('hidden');
@@ -104,7 +105,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         penzKapcsNev.addClass('hidden');
         penzKapcsTel.addClass('hidden');
         penzKapcsEmail.addClass('hidden');
-        teljesNev.removeClass('hidden');
+        $teljesNev.removeClass('hidden');
         anyjaNeve.removeClass('hidden');
         szuletesiIdo.removeClass('hidden');
         muvesznev.removeClass('hidden');
@@ -117,7 +118,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         penzKapcsNev.removeClass('hidden');
         penzKapcsTel.removeClass('hidden');
         penzKapcsEmail.removeClass('hidden');
-        teljesNev.addClass('hidden');
+        $teljesNev.addClass('hidden');
         anyjaNeve.addClass('hidden');
         szuletesiIdo.addClass('hidden');
         muvesznev.addClass('hidden');
@@ -134,7 +135,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             penzKapcsNev.addClass('hidden');
             penzKapcsTel.addClass('hidden');
             penzKapcsEmail.addClass('hidden');
-            teljesNev.removeClass('hidden');
+            $teljesNev.removeClass('hidden');
             anyjaNeve.removeClass('hidden');
             szuletesiIdo.removeClass('hidden');
             muvesznev.removeClass('hidden');
@@ -148,7 +149,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             penzKapcsNev.removeClass('hidden');
             penzKapcsTel.removeClass('hidden');
             penzKapcsEmail.removeClass('hidden');
-            teljesNev.addClass('hidden');
+            $teljesNev.addClass('hidden');
             anyjaNeve.addClass('hidden');
             szuletesiIdo.addClass('hidden');
             muvesznev.addClass('hidden');
@@ -172,7 +173,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //Kapcsolattartó megegyezik? Adatmásolás.
     kapcsChbox.change(function(){
         if($(this).is(':checked')){
-            var $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
+            $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
+            $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
             $('#edit-field-kapcsolattarto-neve-und-0-value').val( ($szemely.val() === 'magan') ? teljesNevInput.val() : $cegnevInput.val() );
             $('#edit-field-kapcsolattart-telefon-und-0-value').val($('#edit-field-telefon-und-0-value').val());
             $('#edit-field-kapcsolattarto-email-und-0-value').val($('#edit-field-email-und-0-email').val());
@@ -219,7 +221,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //these are set in php field_validations (ex.: <span class="error-msg-field-anyja-neve">„[field-name]” mezőt ki kell tölteni.</span>)
     regErr = $('.messages.error');
     if(regErr){
-        teljesNev.filter('hidden').length>0 && $('.error-msg-field-teljes-nev').parent().hide();
+        $teljesNev.filter('hidden').length>0 && $('.error-msg-field-teljes-nev').parent().hide();
         $cegnev.filter('hidden').length>0 && $('.error-msg-field-cegnev').parent().hide();
         $cegJogosult.filter('hidden').length>0 && $('.error-msg-field-ceg-jogosult').parent().hide();
         anyjaNeve.filter('hidden').length>0 && $('.error-msg-field-anyja-neve').parent().hide();
