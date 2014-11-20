@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        adoszam =       $('#edit-field-adoszam'),
         teljesNev =     $('#edit-field-teljes-nev'),
         teljesNevInput =$('#edit-field-teljes-nev-und-0-value'),
         anyjaNeve =     $('#edit-field-anyja-neve'),
@@ -56,7 +55,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         addStar($cegnev.find('label'));
         $cegJogosult = $cegJogosult || $('#edit-field-ceg-jogosult');
         addStar($cegJogosult.find('label'));
-        addStar(adoszam.find('label'));
+        $adoszam = $adoszam || $('#edit-field-adoszam');
+        addStar($adoszam.find('label'));
         addStar(teljesNev.find('label'));
         addStar(anyjaNeve.find('label'));
         addStar(szuletesiIdo.find('.fieldset-legend'));
@@ -94,11 +94,12 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     }
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
     var $cegnev = $cegnev || $('#edit-field-cegnev');
-    var $cegJogosult = cegJogosult || $('#edit-field-ceg-jogosult');
+    var $cegJogosult = $cegJogosult || $('#edit-field-ceg-jogosult');
+    var $adoszam = $adoszam || $('#edit-field-adoszam');;
     if( $szemely.val() === 'magan' ){
         $cegnev.addClass('hidden');
         $cegJogosult.addClass('hidden');
-        adoszam.addClass('hidden');
+        $adoszam.addClass('hidden');
 //        bankszamla.addClass('hidden');
         penzKapcsNev.addClass('hidden');
         penzKapcsTel.addClass('hidden');
@@ -111,7 +112,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     else{
         $cegnev.removeClass('hidden');
         $cegJogosult.removeClass('hidden');
-        adoszam.removeClass('hidden');
+        $adoszam.removeClass('hidden');
 //        bankszamla.removeClass('hidden');
         penzKapcsNev.removeClass('hidden');
         penzKapcsTel.removeClass('hidden');
@@ -128,7 +129,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         if($szemely.val() === 'magan'){
             $cegnev.addClass('hidden');
             $cegJogosult.addClass('hidden');
-            adoszam.addClass('hidden');
+            $adoszam.addClass('hidden');
 //            bankszamla.addClass('hidden');
             penzKapcsNev.addClass('hidden');
             penzKapcsTel.addClass('hidden');
@@ -142,7 +143,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         else{
             $cegnev.removeClass('hidden');
             $cegJogosult.removeClass('hidden');
-            adoszam.removeClass('hidden');
+            $adoszam.removeClass('hidden');
 //            bankszamla.removeClass('hidden');
             penzKapcsNev.removeClass('hidden');
             penzKapcsTel.removeClass('hidden');
@@ -223,7 +224,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         $cegJogosult.filter('hidden').length>0 && $('.error-msg-field-ceg-jogosult').parent().hide();
         anyjaNeve.filter('hidden').length>0 && $('.error-msg-field-anyja-neve').parent().hide();
         $('#edit-field-bankszamla.hidden').length>0 && $('.error-msg-field-bankszamla').parent().hide();
-        adoszam.filter('.hidden').length>0 && $('.error-msg-field-adoszam').parent().hide();
+        $adoszam.filter('.hidden').length>0 && $('.error-msg-field-adoszam').parent().hide();
         szuletesiIdo.filter('.hidden').length>0 && $('.error-msg-field-szuletesi-ido').parent().hide();
         $('#edit-field-bankszamla.hidden').length>0 && $('.error-msg-field-bankszamla').parent().hide();
     }
