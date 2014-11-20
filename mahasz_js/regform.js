@@ -6,8 +6,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     /*
      *      Cache jQuery objects
      */
-    var djszovGroup =   jQuery('#user_user_form_group_djszovetseg'),
-        editMail =      jQuery('#edit-mail'),        
+    var editMail =      jQuery('#edit-mail'),        
         szemely =       jQuery('#edit-field-regisztralo-szemelye-und'),
         cegnev =        jQuery('#edit-field-cegnev'),
         cegnevInput =   jQuery('#edit-field-cegnev-und-0-value'),
@@ -73,7 +72,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //hide unneeded labels
     $('#edit-field-megegyezik label').eq(0).addClass('hidden');
     $('#edit-field-kapcs-megegyezik label').eq(0).addClass('hidden');
-    djszovGroup.find('label').eq(0).addClass('hidden');
+    $djszovGroup = $djszovGroup || jQuery('#user_user_form_group_djszovetseg');
+    $djszovGroup.find('label').eq(0).addClass('hidden');
 
     //disable reg-szemely (and change, and trigger its change) if DJ is checked already
     setMagan();
@@ -236,20 +236,20 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     
     //Ha nincs DJ-nek jelölve, rejtett az egész csoport
     if (!djChbox.is(':checked')) {
-        djszovGroup.addClass('hidden');
+        $djszovGroup.addClass('hidden');
     }
     djChbox.change(function(){
         if($(this).is(':checked')){
-            djszovGroup.removeClass('hidden');
+            $djszovGroup.removeClass('hidden');
         }
         else{
-            djszovGroup.addClass('hidden');
+            $djszovGroup.addClass('hidden');
         }
     });
 
     //meglévő checkbox változást figyelni, a bejelölt érdekes csak
     var $djszovInfo = $djszovInfo || jQuery('<p>').addClass('djszov-info');
-    djszovGroup.find('label').eq(0).parent().prepend($djszovInfo);
+    $djszovGroup.find('label').eq(0).parent().prepend($djszovInfo);
     var $djszovChbox = $djszovChbox || jQuery('#edit-field-dj-szovetseg').find('.form-checkbox');
     $djszovChbox.change(function(){
         if($(this).is(':checked')){
