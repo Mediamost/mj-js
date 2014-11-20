@@ -6,8 +6,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     /*
      *      Cache jQuery objects
      */
-    var djszovInfo  =   jQuery('<p>').addClass('djszov-info'),
-        djszovGroup =   jQuery('#user_user_form_group_djszovetseg'),
+    var djszovGroup =   jQuery('#user_user_form_group_djszovetseg'),
         editMail =      jQuery('#edit-mail'),        
         szemely =       jQuery('#edit-field-regisztralo-szemelye-und'),
         cegnev =        jQuery('#edit-field-cegnev'),
@@ -249,7 +248,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     });
 
     //meglévő checkbox változást figyelni, a bejelölt érdekes csak
-    djszovGroup.find('label').eq(0).parent().prepend(djszovInfo);
+    var $djszovInfo = $djszovInfo || jQuery('<p>').addClass('djszov-info');
+    djszovGroup.find('label').eq(0).parent().prepend($djszovInfo);
     var $djszovChbox = $djszovChbox || jQuery('#edit-field-dj-szovetseg').find('.form-checkbox');
     $djszovChbox.change(function(){
         if($(this).is(':checked')){
@@ -257,13 +257,13 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             //nincs email? kérni, pipa ki.
             if( editMail.val().indexOf('@') < 1 ){
                 $djszovChbox.attr('checked', false);
-                djszovInfo.css('color','red').html('Kérjük adja meg előbb az e-mail címét!');
+                $djszovInfo.css('color','red').html('Kérjük adja meg előbb az e-mail címét!');
                 editMail.addClass('error');
             }
             else{
                 editMail.removeClass('error');
                 //karika animáció be
-                djszovInfo.css('color','inherit').html('Tagság lekérdezése...');
+                $djszovInfo.css('color','inherit').html('Tagság lekérdezése...');
                 //lekérdezés indul
                 $.getJSON("/misc/djsz.php?email=" + editMail.val(), function(json) {
                     //eredményt kiírni karika helyére, ... ?
@@ -272,21 +272,21 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
                         most = new Date();
                         tagsag = new Date(json.ervenyes);
                         if(most - tagsag > 0){  //lejárt
-                            djszovInfo.css('color','orange').html('Tagsága lejárt (' + json.ervenyes +')');
+                            $djszovInfo.css('color','orange').html('Tagsága lejárt (' + json.ervenyes +')');
 
                         }
                         else...*/
                         $djszovChbox.attr('checked', 'checked');
-                        djszovInfo.css({color:'green', fontWeight:'bold'}).html('Tagság rendben.');
+                        $djszovInfo.css({color:'green', fontWeight:'bold'}).html('Tagság rendben.');
                     }
                     else if(json.tagsag === 'NEM'){
-                        djszovInfo.css('color','red').html('Érvényes tagságodat a rendszer nem tudta azonosítani. Kérjük, vedd fel a kapcsolatot a DJ Szövetséggel!');
+                        $djszovInfo.css('color','red').html('Érvényes tagságodat a rendszer nem tudta azonosítani. Kérjük, vedd fel a kapcsolatot a DJ Szövetséggel!');
                     }
                     else if(json.error){
-                        djszovInfo.css('color','red').html('HIBA. ' + json.error);
+                        $djszovInfo.css('color','red').html('HIBA. ' + json.error);
                     }
                     else{
-                        djszovInfo.css('color','red').html('A lekérdezés sikertelen. Kérjük próbálja meg később!');
+                        $djszovInfo.css('color','red').html('A lekérdezés sikertelen. Kérjük próbálja meg később!');
                     }
                 });
             }
