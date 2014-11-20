@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Cache jQuery objects
      */
     var 
-        muvesznev =     $('#edit-field-muvesznev'),
         bankszamla =     $('#edit-field-bankszamla'),
         penzKapcsNev =  $('#edit-field-penzugyi-kapcsolat-neve'),
         penzKapcsTel =  $('#edit-field-penzugyi-kapcsolat-tel'),
@@ -98,6 +97,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     var $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
     var $anyjaNeve = $anyjaNeve || $('#edit-field-anyja-neve');
     var $szuletesiIdo = $szuletesiIdo || $('#edit-field-szuletesi-ido');
+    var muvesznev = $muvesznev || $('#edit-field-muvesznev');
     if( $szemely.val() === 'magan' ){
         $cegnev.addClass('hidden');
         $cegJogosult.addClass('hidden');
@@ -109,7 +109,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         $teljesNev.removeClass('hidden');
         $anyjaNeve.removeClass('hidden');
         $szuletesiIdo.removeClass('hidden');
-        muvesznev.removeClass('hidden');
+        $muvesznev.removeClass('hidden');
     }
     else{
         $cegnev.removeClass('hidden');
@@ -122,7 +122,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         $teljesNev.addClass('hidden');
         $anyjaNeve.addClass('hidden');
         $szuletesiIdo.addClass('hidden');
-        muvesznev.addClass('hidden');
+        $muvesznev.addClass('hidden');
         legyenKotelezo(bankszamla.find('label'), 'szlareq');
 
     }
@@ -139,7 +139,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             $teljesNev.removeClass('hidden');
             $anyjaNeve.removeClass('hidden');
             $szuletesiIdo.removeClass('hidden');
-            muvesznev.removeClass('hidden');
+            $muvesznev.removeClass('hidden');
             $('#szlareq').remove();
         }
         else{
@@ -153,7 +153,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             $teljesNev.addClass('hidden');
             $anyjaNeve.addClass('hidden');
             $szuletesiIdo.addClass('hidden');
-            muvesznev.addClass('hidden');
+            $muvesznev.addClass('hidden');
 
             //nullázni kell a részleges dátumot, mert gondot okoz, ha közben cégre vált
             if( //részleges?
