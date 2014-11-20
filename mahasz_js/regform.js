@@ -4,15 +4,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
 
 
     /*
-     *      Cache jQuery objects
-     */
-    var 
-        kapcsChbox =    $('#edit-field-kapcs-megegyezik-und-megegyezik-a-fentiekkel'),
-        placeholder  =  '';
-
-
-
-    /*
      *      Ha DJ-t bepipálja, reg. személy legyen magán és letiltva
      */
     var setMagan = function (){
@@ -171,7 +162,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
 
 
     //Kapcsolattartó megegyezik? Adatmásolás.
-    kapcsChbox.change(function(){
+    var $kapcsChbox = $kapcsChbox || $('#edit-field-kapcs-megegyezik-und-megegyezik-a-fentiekkel');
+    $kapcsChbox.change(function(){
         if($(this).is(':checked')){
             $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
             $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
@@ -185,14 +177,14 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     });
     //change any of theese fields unchecks the copy checkbox
     var $teljesNevInput = $teljesNevInput || $('#edit-field-teljes-nev-und-0-value');
-    $teljesNevInput.change(function(){kapcsChbox.attr('checked', false);});
+    $teljesNevInput.change(function(){$kapcsChbox.attr('checked', false);});
     var $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
-    $cegnevInput.change(function(){kapcsChbox.attr('checked', false);});
-    $('#edit-field-telefon-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
-    $('#edit-field-email-und-0-email').change(function(){kapcsChbox.attr('checked', false);});
-    $('#edit-field-kapcsolattarto-neve-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
-    $('#edit-field-kapcsolattart-telefon-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
-    $('#edit-field-kapcsolattarto-email-und-0-value').change(function(){kapcsChbox.attr('checked', false);});
+    $cegnevInput.change(function(){$kapcsChbox.attr('checked', false);});
+    $('#edit-field-telefon-und-0-value').change(function(){$kapcsChbox.attr('checked', false);});
+    $('#edit-field-email-und-0-email').change(function(){$kapcsChbox.attr('checked', false);});
+    $('#edit-field-kapcsolattarto-neve-und-0-value').change(function(){$kapcsChbox.attr('checked', false);});
+    $('#edit-field-kapcsolattart-telefon-und-0-value').change(function(){$kapcsChbox.attr('checked', false);});
+    $('#edit-field-kapcsolattarto-email-und-0-value').change(function(){$kapcsChbox.attr('checked', false);});
 
     //Levelezési cím megegyezik? Adatmásolás.
     var $egyezikFentiCim = $egyezikFentiCim || $('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel');
