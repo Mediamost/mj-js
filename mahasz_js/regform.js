@@ -217,7 +217,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //Hide duplicate error messages
     //these are set in php field_validations (ex.: <span class="error-msg-field-anyja-neve">„[field-name]” mezőt ki kell tölteni.</span>)
     regErr = $('.messages.error');
-    if(regErr){
+    if(regErr.length > 0){
         $teljesNev.filter('hidden').length>0 && $('.error-msg-field-teljes-nev').parent().hide();
         $cegnev.filter('hidden').length>0 && $('.error-msg-field-cegnev').parent().hide();
         $cegJogosult.filter('hidden').length>0 && $('.error-msg-field-ceg-jogosult').parent().hide();
