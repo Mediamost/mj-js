@@ -17,6 +17,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         }
     };
 
+  
 
     /*
      *      Adott HTML elem mögé kerüljön csillag (kötelező)
