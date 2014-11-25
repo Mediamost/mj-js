@@ -16,15 +16,39 @@ function mahasz_js_init(){
   */
 
 
+  /* make object dummy simple */
+  function simpler($arr) {
+    global $i;
+    //print " START($i) "; 
+    if($i > 18){
+      //print " törés "; 
+      return $arr;
+    }
+    if(!is_array($arr) || !sizeof($arr) == 1){ 
+      //print !is_array($arr) ? " nemtömb " : ' tömb '; 
+      //print !sizeof($arr) == 1 ? " nemegyelemű " : ' egyelemű '; 
+      return $arr;
+    }
+    else {
+      //print " array,size=1 ";
+      $i++;
+      return simpler(array_pop($arr));
+    }
+    return $arr;
+  }
+
+
   /* array of an object*/
   function mahasz_field($name, $type){
-    return field_get_items($type, $$type, $name);
+    global $$type;
+    $my_type = ($type == 'user') ? user_load($$type->uid) : $$type;
+    return simpler(field_get_items($type, $my_type, $name));
   }
 
   /* several fields from same type */
   function mahasz_fields($names, $type) {
     $names = is_array($names) ? $names : array($names);
-    $fields = array;
+    $fields = array();
     foreach ($names as $name) {
       $fields += array($name => mahasz_field($name, $type));
     }
@@ -42,14 +66,13 @@ function mahasz_js_init(){
 	}
 
 	$node = menu_get_object();
-  watchdog('mahasz_js', 'user:'.print_r($user,1), array(), WATCHDOG_CRITICAL);
 
 	drupal_add_js(array(
 		'mahasz_js' => array( 
 			'args' => $args,
 			'currentUser' => $user->uid,
-      'user' => !$user->uid > 0 ? array() : 
-        mahasz_fields('field_jogi_csoport', 'user'),
+      'user_fields' => !$user->uid > 0 ? array() : 
+        mahasz_fields(array('field_regisztralo_szemelye', 'field_email'), 'user'),
       'nid' => !empty($node) ? $node->nid : '',
       'uid' => !empty($node) ? $node->uid : '',
       'node_type' => !empty($node) ? $node->type : '',
