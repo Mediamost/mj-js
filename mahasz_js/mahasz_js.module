@@ -4,6 +4,33 @@
 function mahasz_js_init(){
 	global $user, $node;
 
+  //user fields
+  /* ez majd csak akkor kell, ha minden mezőt be kell tenni. Most csak néhány kell, amiket nem módosíthat, mégis függnekj tőle más mezők!*/
+  /*
+  $user_keys = array_keys( field_read_fields(array('entity_type' => 'user', 'bundle' => 'user'))  );
+  foreach($user_keys as $key) {
+    print_r( $key );
+    $field = field_get_items('user', $user, $key);
+    print_r( $field );
+  }
+  */
+
+
+  /* array of an object*/
+  function mahasz_field($name, $type){
+    return field_get_items($type, $$type, $name);
+  }
+
+  /* several fields from same type */
+  function mahasz_fields($names, $type) {
+    $names = is_array($names) ? $names : array($names);
+    $fields = array;
+    foreach ($names as $name) {
+      $fields += array($name => mahasz_field($name, $type));
+    }
+    return $fields;
+  }
+
 	//build args dynamically
 	$args = array();
 	for($i = 0; $a = arg($i); $i++){
@@ -15,11 +42,14 @@ function mahasz_js_init(){
 	}
 
 	$node = menu_get_object();
+  watchdog('mahasz_js', 'user:'.print_r($user,1), array(), WATCHDOG_CRITICAL);
 
 	drupal_add_js(array(
 		'mahasz_js' => array( 
 			'args' => $args,
 			'currentUser' => $user->uid,
+      'user' => !$user->uid > 0 ? array() : 
+        mahasz_fields('field_jogi_csoport', 'user'),
       'nid' => !empty($node) ? $node->nid : '',
       'uid' => !empty($node) ? $node->uid : '',
       'node_type' => !empty($node) ? $node->type : '',
