@@ -25,13 +25,13 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     var addStar = function(elm, id) {
         var kotelezo = '<span class="form-required" '+(id ? 'id="'+id+'"' : '')+' title="Szükséges mező.">*</span>';
         elm.append(kotelezo);
-    }
+    };
 
 
     /*
      *      Kötelező mezők beállítása
      */
-    (function() {
+    var setKotelezo = function() {
         //mark some fields as required (as they really are, but not by form api)
         $cegnev = $cegnev || $('#edit-field-cegnev');
         addStar($cegnev.find('label'));
@@ -46,7 +46,8 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         $szuletesiIdo = $szuletesiIdo || $('#edit-field-szuletesi-ido');
         addStar($szuletesiIdo.find('.fieldset-legend'));
         //addStar($szuletesiIdo.find('label'));
-    })();
+    };
+    setKotelezo();
 
     //mark errors on parents of checkboxes, radios
     $('input.error:checkbox').parent().css('color','#ff0000');
@@ -114,7 +115,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         $anyjaNeve.addClass('hidden');
         $szuletesiIdo.addClass('hidden');
         $muvesznev.addClass('hidden');
-        legyenKotelezo($bankszamla.find('label'), 'szlareq');
+        addStar($bankszamla.find('label'), 'szlareq');
 
     }
     //copy for now :(
@@ -156,7 +157,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
                 $('#edit-field-szuletesi-ido-und-0-value-month').val('');
                 $('#edit-field-szuletesi-ido-und-0-value-day').val('');
             }
-            legyenKotelezo($bankszamla.find('label'), 'szlareq');
+            addStar($bankszamla.find('label'), 'szlareq');
         } 
     });
 
@@ -233,10 +234,10 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     //Lekérdezés a DJ szövetségtől
     
     //Ha nincs DJ-nek jelölve, rejtett az egész csoport
-    if (!djChbox.is(':checked')) {
+    if (!$djChbox.is(':checked')) {
         $djszovGroup.addClass('hidden');
     }
-    djChbox.change(function(){
+    $djChbox.change(function(){
         if($(this).is(':checked')){
             $djszovGroup.removeClass('hidden');
         }
