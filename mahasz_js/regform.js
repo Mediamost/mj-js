@@ -29,25 +29,29 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
 
 
     /*
-     *      Kötelező mezők beállítása
+     *      Kötelező mezők
      */
-    var setKotelezo = function() {
-        //mark some fields as required (as they really are, but not by form api)
-        $cegnev = $cegnev || $('#edit-field-cegnev');
-        addStar($cegnev.find('label'));
-        $cegJogosult = $cegJogosult || $('#edit-field-ceg-jogosult');
-        addStar($cegJogosult.find('label'));
-        $adoszam = $adoszam || $('#edit-field-adoszam');
-        addStar($adoszam.find('label'));
-        $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
-        addStar($teljesNev.find('label'));
-        $anyjaNeve = $anyjaNeve || $('#edit-field-anyja-neve');
-        addStar($anyjaNeve.find('label'));
-        $szuletesiIdo = $szuletesiIdo || $('#edit-field-szuletesi-ido');
-        addStar($szuletesiIdo.find('.fieldset-legend'));
-        //addStar($szuletesiIdo.find('label'));
-    };
-    setKotelezo();
+    
+    //mark some fields as required (as they really are, but not by form api)
+    var $cegnev = $cegnev || $('#edit-field-cegnev');
+    var $cegJogosult = $cegJogosult || $('#edit-field-ceg-jogosult');
+    var $adoszam = $adoszam || $('#edit-field-adoszam');
+    var $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
+    var $anyjaNeve = $anyjaNeve || $('#edit-field-anyja-neve');
+    var $szuletesiIdo = $szuletesiIdo || $('#edit-field-szuletesi-ido');
+    
+    addStar($cegnev.find('label'));
+    addStar($cegJogosult.find('label'));
+    addStar($adoszam.find('label'));
+    addStar($teljesNev.find('label'));
+    addStar($anyjaNeve.find('label'));
+    addStar($szuletesiIdo.find('.fieldset-legend'));
+
+
+    
+    /* 
+     *      Visibility of errors, labels 
+     */
 
     //mark errors on parents of checkboxes, radios
     $('input.error:checkbox').parent().css('color','#ff0000');
@@ -59,6 +63,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     $('#edit-field-kapcs-megegyezik label').eq(0).addClass('hidden');
     var $djszovGroup = $djszovGroup || $('#user_user_form_group_djszovetseg');
     $djszovGroup.find('label').eq(0).addClass('hidden');
+
 
     //disable reg-szemely (and change, and trigger its change) if DJ is checked already
     setMagan();
@@ -79,12 +84,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         });
     }
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
-    var $cegnev = $cegnev || $('#edit-field-cegnev');
-    var $cegJogosult = $cegJogosult || $('#edit-field-ceg-jogosult');
-    var $adoszam = $adoszam || $('#edit-field-adoszam');
-    var $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
-    var $anyjaNeve = $anyjaNeve || $('#edit-field-anyja-neve');
-    var $szuletesiIdo = $szuletesiIdo || $('#edit-field-szuletesi-ido');
     var $muvesznev = $muvesznev || $('#edit-field-muvesznev');
     var $bankszamla = $bankszamla || $('#edit-field-bankszamla');
     var $penzKapcsNev = $penzKapcsNev || $('#edit-field-penzugyi-kapcsolat-neve');
