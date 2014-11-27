@@ -24,12 +24,7 @@ function mahasz_js_init(){
       //print " törés "; 
       return $arr;
     }
-    if(!is_array($arr) || !sizeof($arr) == 1){ 
-      //print !is_array($arr) ? " nemtömb " : ' tömb '; 
-      //print !sizeof($arr) == 1 ? " nemegyelemű " : ' egyelemű '; 
-      return $arr;
-    }
-    else {
+    if(is_array($arr) && sizeof($arr) == 1){ 
       //print " array,size=1 ";
       $i++;
       return simpler(array_pop($arr));

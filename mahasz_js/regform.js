@@ -7,12 +7,13 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Ha DJ-t bepipálja, reg. személy legyen magán és letiltva
      */
     var setMagan = function (){
+        //This isn't needed now. take component from settings if it's not present (aka. user edit page where no permission to edit that field)
         $djChbox = $djChbox || $('#edit-field-jogi-csoport-und-dj');
         $szemely = $szemely || $('#edit-field-regisztralo-szemelye-und');
-        if($djChbox.is(':checked')){
+        if($djChbox.length>0 && $djChbox.is(':checked')){
             $szemely.val('magan').attr('disabled','disabled').trigger('change');
         }
-        else{
+        else if($szemely.length>0){
             $szemely.removeAttr('disabled');
         }
     };

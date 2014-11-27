@@ -98,7 +98,8 @@
                 mahasz.args.length > 1 &&
                 mahasz.args[0] === 'user' &&
                 mahasz.args[1] !== 'login' &&
-                mahasz.args[1] !== 'password'
+                mahasz.args[1] !== 'password' &&
+                mahasz.args[1] !== 'reset'
             ) {
                 Drupal.behaviors.mahasz_js_regform($);
             }
