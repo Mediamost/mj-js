@@ -18,6 +18,34 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
         }
     };
 
+
+    /*
+     *      Hide and reset a field
+     */
+     var hideAndReset = function (fields) {
+        if (typeof fields !== 'object') {
+            fields = Array(fields);
+        };
+        $.each(fields, function(index, $container) {
+            $container.find('input').val('').closest(':checked').attr('checked', false);   //checkbox & radio needs attr change (note: not prop, this is jQ 1.4)
+            $container.find('select').val('');
+            $container.addClass('hidden');
+        });
+     }
+
+
+    /*
+     *      Show a field bulk
+     */
+     var showFields = function (fields) {
+        if (typeof fields !== 'object') {
+            fields = Array(fields);
+        };
+        $.each(fields, function(index, $container) {
+            $container.removeClass('hidden');
+        });
+     }
+
   
 
     /*
@@ -74,9 +102,10 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
 
     //create copy of reg-szemely to store its data even it is disabled (not send in form data)
     var $szemely = $szemely || $('#edit-field-regisztralo-szemelye-und');
-    if($szemely.length>0){
-        $szemely.parent().append('<input type="hidden" id="'+$szemely.attr('id')+'-copy'+'" />');
-        var mytgt = $('#'+$szemely.attr('id')+'-copy');
+    if($szemely.length>0) {
+        szemelyCloneId = $szemely.attr('id')+'-copy';
+        $szemely.parent().append('<input type="hidden" id="'+szemelyCloneId+'" />');
+        var mytgt = $('#'+szemelyCloneId);
         mytgt.attr('name',$szemely.attr('name')).val($szemely.val());
 
         //onchange, change the clone too
@@ -84,69 +113,38 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             mytgt.val($szemely.val());
         });
     }
+
     //ha magan, rejtse a céges mezőket, mutassa a magán mezőket
     var $muvesznev = $muvesznev || $('#edit-field-muvesznev');
     var $bankszamla = $bankszamla || $('#edit-field-bankszamla');
     var $penzKapcsNev = $penzKapcsNev || $('#edit-field-penzugyi-kapcsolat-neve');
     var $penzKapcsTel = $penzKapcsTel || $('#edit-field-penzugyi-kapcsolat-tel');
     var $penzKapcsEmail = $penzKapcsEmail || $('#edit-field-penzugyi-kapcsolat-email');
+
     if( $szemely.val() === 'magan' ){
-        $cegnev.addClass('hidden');
-        $cegJogosult.addClass('hidden');
-        $adoszam.addClass('hidden');
-//        $bankszamla.addClass('hidden');
-        $penzKapcsNev.addClass('hidden');
-        $penzKapcsTel.addClass('hidden');
-        $penzKapcsEmail.addClass('hidden');
-        $teljesNev.removeClass('hidden');
-        $anyjaNeve.removeClass('hidden');
-        $szuletesiIdo.removeClass('hidden');
-        $muvesznev.removeClass('hidden');
+        hideAndReset(Array($cegnev, $cegJogosult, $adoszam, $penzKapcsNev, $penzKapcsTel, $penzKapcsEmail));
+        showFields(Array($teljesNev, $anyjaNeve, $szuletesiIdo, $muvesznev));
     }
     else{
-        $cegnev.removeClass('hidden');
-        $cegJogosult.removeClass('hidden');
-        $adoszam.removeClass('hidden');
-//        $bankszamla.removeClass('hidden');
-        $penzKapcsNev.removeClass('hidden');
-        $penzKapcsTel.removeClass('hidden');
-        $penzKapcsEmail.removeClass('hidden');
-        $teljesNev.addClass('hidden');
-        $anyjaNeve.addClass('hidden');
-        $szuletesiIdo.addClass('hidden');
-        $muvesznev.addClass('hidden');
+        hideAndReset(Array($teljesNev, $anyjaNeve, $szuletesiIdo, $muvesznev));
+        showFields(Array($cegnev, $cegJogosult, $adoszam, $penzKapcsNev, $penzKapcsTel, $penzKapcsEmail));
+
         addStar($bankszamla.find('label'), 'szlareq');
 
     }
     //copy for now :(
     $szemely.change(function(){
         if($szemely.val() === 'magan'){
-            $cegnev.addClass('hidden');
-            $cegJogosult.addClass('hidden');
-            $adoszam.addClass('hidden');
-//            $bankszamla.addClass('hidden');
-            $penzKapcsNev.addClass('hidden');
-            $penzKapcsTel.addClass('hidden');
-            $penzKapcsEmail.addClass('hidden');
-            $teljesNev.removeClass('hidden');
-            $anyjaNeve.removeClass('hidden');
-            $szuletesiIdo.removeClass('hidden');
-            $muvesznev.removeClass('hidden');
+            hideAndReset(Array($cegnev, $cegJogosult, $adoszam, $penzKapcsNev, $penzKapcsTel, $penzKapcsEmail));
+            showFields(Array($teljesNev, $anyjaNeve, $szuletesiIdo, $muvesznev));
+
             $('#szlareq').remove();
         }
         else{
-            $cegnev.removeClass('hidden');
-            $cegJogosult.removeClass('hidden');
-            $adoszam.removeClass('hidden');
-//            $bankszamla.removeClass('hidden');
-            $penzKapcsNev.removeClass('hidden');
-            $penzKapcsTel.removeClass('hidden');
-            $penzKapcsEmail.removeClass('hidden');
-            $teljesNev.addClass('hidden');
-            $anyjaNeve.addClass('hidden');
-            $szuletesiIdo.addClass('hidden');
-            $muvesznev.addClass('hidden');
+            hideAndReset(Array($teljesNev, $anyjaNeve, $szuletesiIdo, $muvesznev));
+            showFields(Array($cegnev, $cegJogosult, $adoszam, $penzKapcsNev, $penzKapcsTel, $penzKapcsEmail));
 
+            /* hideAndReset megoldotta már
             //nullázni kell a részleges dátumot, mert gondot okoz, ha közben cégre vált
             if( //részleges?
                 $('#edit-field-szuletesi-ido-und-0-value-year').val().length===0 || 
@@ -156,7 +154,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
                 $('#edit-field-szuletesi-ido-und-0-value-year').val('');
                 $('#edit-field-szuletesi-ido-und-0-value-month').val('');
                 $('#edit-field-szuletesi-ido-und-0-value-day').val('');
-            }
+            } */
             addStar($bankszamla.find('label'), 'szlareq');
         } 
     });
