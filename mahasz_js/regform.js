@@ -7,7 +7,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      *      Ha DJ-t bepipálja, reg. személy legyen magán és letiltva
      */
     var setMagan = function (){
-        //This isn't needed now. take component from settings if it's not present (aka. user edit page where no permission to edit that field)
         $djChbox = $djChbox || $('#edit-field-jogi-csoport-und-dj');
         $szemely = $szemely || $('#edit-field-regisztralo-szemelye-und');
         if($djChbox.length>0 && $djChbox.is(':checked')){
@@ -25,13 +24,13 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      var hideAndReset = function (fields) {
         if (typeof fields !== 'object') {
             fields = Array(fields);
-        };
+        }
         $.each(fields, function(index, $container) {
             $container.find('input').val('').closest(':checked').attr('checked', false);   //checkbox & radio needs attr change (note: not prop, this is jQ 1.4)
             $container.find('select').val('');
             $container.addClass('hidden');
         });
-     }
+     };
 
 
     /*
@@ -40,11 +39,11 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
      var showFields = function (fields) {
         if (typeof fields !== 'object') {
             fields = Array(fields);
-        };
+        }
         $.each(fields, function(index, $container) {
             $container.removeClass('hidden');
         });
-     }
+     };
 
   
 
@@ -121,7 +120,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     var $penzKapcsTel = $penzKapcsTel || $('#edit-field-penzugyi-kapcsolat-tel');
     var $penzKapcsEmail = $penzKapcsEmail || $('#edit-field-penzugyi-kapcsolat-email');
 
-    if( $szemely.val() === 'magan' ){
+    if( $szemely.val() === 'magan' || Drupal.settings.mahasz_js.user_fields.field_regisztralo_szemelye === 'magan'){
         hideAndReset(Array($cegnev, $cegJogosult, $adoszam, $penzKapcsNev, $penzKapcsTel, $penzKapcsEmail));
         showFields(Array($teljesNev, $anyjaNeve, $szuletesiIdo, $muvesznev));
     }
@@ -160,24 +159,39 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     });
 
 
+    /*
+     *      Név előszedése. Ha magán, akkor teljes név, egyébként céges.
+     */
+     var ultimateName = function () {
+        $szemely = $szemely || $('#edit-field-regisztralo-szemelye-und');
+        $teljesNevInput = $teljesNevInput || $('#edit-field-teljes-nev-und-0-value');
+        $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
+
+        if($szemely.length>0) {
+            return ($szemely.val() === 'magan') ? $teljesNevInput.val() : $cegnevInput.val();
+        }
+        else {
+            return (Drupal.settings.mahasz_js.user_fields.field_regisztralo_szemelye === 'magan') ? Drupal.settings.mahasz_js.user_fields.field_teljes_nev.value : Drupal.settings.mahasz_js.user_fields.field_cegnev.value;
+        }
+     };
 
     //Kapcsolattartó megegyezik? Adatmásolás.
     var $kapcsChbox = $kapcsChbox || $('#edit-field-kapcs-megegyezik-und-megegyezik-a-fentiekkel');
     $kapcsChbox.change(function(){
         if($(this).is(':checked')){
-            $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
-            $teljesNev = $teljesNev || $('#edit-field-teljes-nev');
-            $teljesNevInput = $teljesNevInput || $('#edit-field-teljes-nev-und-0-value');
-
-            $('#edit-field-kapcsolattarto-neve-und-0-value').val( ($szemely.val() === 'magan') ? $teljesNevInput.val() : $cegnevInput.val() );
+            $('#edit-field-kapcsolattarto-neve-und-0-value').val(ultimateName());
             $('#edit-field-kapcsolattart-telefon-und-0-value').val($('#edit-field-telefon-und-0-value').val());
             $('#edit-field-kapcsolattarto-email-und-0-value').val($('#edit-field-email-und-0-email').val());
             $('#edit-mail').val($('#edit-field-email-und-0-email').val());
         }
     });
+
     //change any of theese fields unchecks the copy checkbox
     var $teljesNevInput = $teljesNevInput || $('#edit-field-teljes-nev-und-0-value');
-    $teljesNevInput.change(function(){$kapcsChbox.attr('checked', false);});
+    $teljesNevInput.change(function(){
+        $kapcsChbox.attr('checked', false);
+    });
+
     var $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
     $cegnevInput.change(function(){$kapcsChbox.attr('checked', false);});
     $('#edit-field-telefon-und-0-value').change(function(){$kapcsChbox.attr('checked', false);});
@@ -190,12 +204,10 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     var $egyezikFentiCim = $egyezikFentiCim || $('#edit-field-megegyezik-und-megegyezik-a-fenti-cmmel');
     $egyezikFentiCim.change(function(){
         if($(this).is(':checked')){
-            //csak az üres levelezési nevet töltjük fel névvel
-            if( $('#edit-field-posta-nev-und-0-value').val() === '' ){
-                $cegnevInput = $cegnevInput || $('#edit-field-cegnev-und-0-value');
-                $teljesNevInput = $teljesNevInput || $('#edit-field-teljes-nev-und-0-value');
-                $('#edit-field-posta-nev-und-0-value').val( ($szemely.val() === 'magan') ? $teljesNevInput.val() : $cegnevInput.val() );
-            }
+            //csak az üres levelezési nevet töltjük fel névvel (miért is?)
+            //if( 1===1 || $('#edit-field-posta-nev-und-0-value').val() === '' ){     //utólag ez egy értelmetlen feltétel
+            $('#edit-field-posta-nev-und-0-value').val( ultimateName );
+            //}
             $('#edit-field-posta-orszag-und').val($('#edit-field-orszag-und').val());
             $('#edit-field-posta-iranyitoszam-und-0-value').val($('#edit-field-iranyitoszam-und-0-value').val());
             $('#edit-field-posta-varos-und-0-value').val($('#edit-field-varos-und-0-value').val());
@@ -245,6 +257,7 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     });
 
     //meglévő checkbox változást figyelni, a bejelölt érdekes csak
+    /* kikerült az űrlapról a DJ szövetség tagság mező (helyette jogosításonként pipálható)
     var $djszovInfo = $djszovInfo || $('<p>').addClass('djszov-info');
     $djszovGroup.find('label').eq(0).parent().prepend($djszovInfo);
     var $djszovChbox = $djszovChbox || $('#edit-field-dj-szovetseg').find('.form-checkbox');
@@ -266,14 +279,13 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
                 $.getJSON("/misc/djsz.php?email=" + $editMail.val(), function(json) {
                     //eredményt kiírni karika helyére, ... ?
                     if(json.tagsag === 'IGEN'){
-                        /*lejárt tagság nem tagság
-                        most = new Date();
-                        tagsag = new Date(json.ervenyes);
-                        if(most - tagsag > 0){  //lejárt
-                            $djszovInfo.css('color','orange').html('Tagsága lejárt (' + json.ervenyes +')');
-
-                        }
-                        else...*/
+                        //lejárt tagság nem tagság
+                        //most = new Date();
+                        //tagsag = new Date(json.ervenyes);
+                        //if(most - tagsag > 0){  //lejárt
+                        //    $djszovInfo.css('color','orange').html('Tagsága lejárt (' + json.ervenyes +')');
+                        //}
+                        //else...
                         $djszovChbox.attr('checked', 'checked');
                         $djszovInfo.css({color:'green', fontWeight:'bold'}).html('Tagság rendben.');
                     }
@@ -290,5 +302,6 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
             }
         }
     });
+    */
 
 };

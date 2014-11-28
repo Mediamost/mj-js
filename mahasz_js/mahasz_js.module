@@ -67,7 +67,7 @@ function mahasz_js_init(){
 			'args' => $args,
 			'currentUser' => $user->uid,
       'user_fields' => !$user->uid > 0 ? array() : 
-        mahasz_fields(array('field_regisztralo_szemelye', 'field_email'), 'user'),
+        mahasz_fields(array('field_regisztralo_szemelye', 'field_email', 'field_teljes_nev', 'field_cegnev'), 'user'),
       'nid' => !empty($node) ? $node->nid : '',
       'uid' => !empty($node) ? $node->uid : '',
       'node_type' => !empty($node) ? $node->type : '',
