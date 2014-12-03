@@ -10,9 +10,19 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){
      *  ZG típus váltás 
      */
      var zgJogositasChange = function () {
-        console.log('zgJogositasChange() called');
-        if($('#edit-field-jogositas-2014-und').val() === 'tobbszoroz') {
-            //...
+        //csak többszöröz esetén kell a tracklist mezeje
+        $zgJogositas = $('#edit-field-jogositas-2014-und');
+        if( 
+            $zgJogositas.length > 0 &&
+            $zgJogositas.val() !== 'tobbszoroz'
+        ){
+            $('.field-name-field-tobbszorozesi-lista').addClass('hidden');
+        }
+        else if( 
+            $zgJogositas.length > 0 &&
+            $zgJogositas.val() === 'tobbszoroz'
+        ){
+            $('.field-name-field-tobbszorozesi-lista').removeClass('hidden');
         }
      };
 
