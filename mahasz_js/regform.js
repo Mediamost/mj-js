@@ -304,23 +304,4 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     });
     */
 
-
-
-    /* 
-     *   ZG tracklista csak többszörözési esetén 
-     */
-     var zgJogositasChange = function () {
-        console.log('zgJogositasChange() called');
-        if($('#edit-field-jogositas-2014-und').val() === 'tobbszoroz') {
-            //...
-        }
-     }
-     $('#edit-field-jogositas-2014-und').change(function () {
-        zgJogositasChange();
-     });
-
-     //kezdo megjelenés (pl edit oldalon)
-     zgJogositasChange();
-
-
 };

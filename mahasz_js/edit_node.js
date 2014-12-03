@@ -1,6 +1,32 @@
-/* JS for node add + node edit pages */
+/* 
+ *  JS for node add + node edit pages 
+ */
+
 
 Drupal.behaviors.mahasz_js_edit_node = function ($){
+
+
+    /*
+     *  ZG típus váltás 
+     */
+     var zgJogositasChange = function () {
+        console.log('zgJogositasChange() called');
+        if($('#edit-field-jogositas-2014-und').val() === 'tobbszoroz') {
+            //...
+        }
+     };
+
+     //bind
+     $('#edit-field-jogositas-2014-und').change(function () {
+        zgJogositasChange();
+     });
+
+     //kezdo megjelenés (pl edit oldalon)
+     zgJogositasChange();
+
+
+
+
 
     //szövegek
     var kotelezo = '<span class="form-required" title="Szükséges mező.">*</span>';
