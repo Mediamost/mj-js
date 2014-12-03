@@ -46,12 +46,6 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){
     zgJogositasChange();
 
 
-
-
-
-    //szövegek
-    var kotelezo = '<span class="form-required" title="Szükséges mező.">*</span>';
-
     //feltétel mindnél van
     addStar($('#edit-field-feltetelek').find('label').eq(0));
 
@@ -122,12 +116,12 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){
         helyszin = $('#node_jogositas_zenegep_form_group_hely');
       
     //zenegep kötelező mező jelölések
-    raktarIdo.find('legend').eq(0).append(kotelezo);
-    raktarFeltetelek.find('label').eq(0).append(kotelezo);
-    $('#edit-field-helyszin-nev').find('label').eq(0).append(kotelezo);
-    $('#edit-field-iranyitoszam').find('label').eq(0).append(kotelezo);
-    $('#edit-field-helyseg').find('label').eq(0).append(kotelezo);
-    $('#edit-field-utca').find('label').eq(0).append(kotelezo);
+    addStar(raktarIdo.find('legend').eq(0));
+    addStar(raktarFeltetelek.find('label').eq(0));
+    addStar($('#edit-field-helyszin-nev').find('label').eq(0));
+    addStar($('#edit-field-iranyitoszam').find('label').eq(0));
+    addStar($('#edit-field-helyseg').find('label').eq(0));
+    addStar($('#edit-field-utca').find('label').eq(0));
 
     if(!raktarChkbox.is(':checked')){ //nincs raktár pipálva -> rejtések
         raktarFeltetelek.hide();
@@ -164,14 +158,14 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){
             ujgep = $('#edit-field-ujgep-und-uj'),
             tracklista = $('#edit-field-tobbszorozesi-lista');
         if( jogdijTipus.val() == 'tobbszoroz' && ujgep.is(':checked')){
-            tracklista.find('label').eq(0).append(kotelezo);
+            addStar(tracklista.find('label').eq(0));
         }
         ujgep.change(function(){
             if( !$(this).is(':checked')){ 
                 tracklista.find('.form-required').remove();
             } 
             else if(jogdijTipus.val() == 'tobbszoroz'){
-                tracklista.find('label').eq(0).append(kotelezo);
+                addStar(tracklista.find('label').eq(0));
             }
         });
         jogdijTipus.change(function(){
@@ -179,20 +173,20 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){
                 tracklista.find('.form-required').remove();
             } 
             else if(ujgep.is(':checked')){
-                tracklista.find('label').eq(0).append(kotelezo);
+                addStar(tracklista.find('label').eq(0));
             }
         });
 
     }
 
     //alkalmankenti jogosításnál az adatszolgáltatas kötelező (HZ és DJ esetén ugyanaz a field)
-    $('#edit-field-tobbszorozesi-lista-und-0-ajax-wrapper').find('label').eq(0).append(kotelezo);
+    addStar($('#edit-field-tobbszorozesi-lista-und-0-ajax-wrapper').find('label').eq(0));
 
 
 ////// ZENEGÉP  /////////
 
     //a 2014-es jogdíjtípus kötelező
-    $('#edit-field-jogositas-2014').find('label').eq(0).append(kotelezo);
+    addStar($('#edit-field-jogositas-2014').find('label').eq(0));
 
     //ha nem átalányról vált többszörözésenkénti Zenegépre, el kell rejteni a váltás elfogadót
     if( 
