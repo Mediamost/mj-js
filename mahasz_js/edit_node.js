@@ -1,12 +1,53 @@
-/* JS for node add + node edit pages */
+/* 
+ *  JS for node add + node edit pages 
+ */
+
 
 Drupal.behaviors.mahasz_js_edit_node = function ($){
 
-    //szövegek
-    var kotelezo = '<span class="form-required" title="Szükséges mező.">*</span>';
+
+
+    /*
+     *      Adott HTML elem mögé kerüljön csillag (kötelező)
+     */
+    var addStar = function(elm, id) {
+        var kotelezo = '<span class="form-required" '+(id ? 'id="'+id+'"' : '')+' title="Szükséges mező.">*</span>';
+        elm.append(kotelezo);
+    };
+
+
+
+    /*
+     *  ZG típus váltás 
+     */
+    var zgJogositasChange = function () {
+        //csak többszöröz esetén kell a tracklist mezeje
+        $zgJogositas = $('#edit-field-jogositas-2014-und');
+        if( 
+            $zgJogositas.length > 0 &&
+            $zgJogositas.val() !== 'tobbszoroz'
+        ){
+            $('.field-name-field-tobbszorozesi-lista').slideUp(300); //addClass('hidden');
+        }
+        else if( 
+            $zgJogositas.length > 0 &&
+            $zgJogositas.val() === 'tobbszoroz'
+        ){
+            $('.field-name-field-tobbszorozesi-lista').slideDown(300); //removeClass('hidden');
+        }
+    };
+
+    //bind
+    $('#edit-field-jogositas-2014-und').change(function () {
+        zgJogositasChange();
+    });
+
+    //kezdo megjelenés (pl edit oldalon)
+    zgJogositasChange();
+
 
     //feltétel mindnél van
-    $('#edit-field-feltetelek').find('label').eq(0).append(kotelezo);
+    addStar($('#edit-field-feltetelek').find('label').eq(0));
 
     //számlázási név és postai cím mezők letiltása
     $('#edit-field-szamla-nev-und-0-value').attr('disabled','disabled');
@@ -72,17 +113,17 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){
 
       var raktarFeltetelek = $('#edit-field-raktar-feltetelek'),
         raktarIdo = $('#edit-field-raktar-ido'),
-            helyszin = $('#node_jogositas_zenegep_form_group_hely');
+        helyszin = $('#node_jogositas_zenegep_form_group_hely');
       
-      //zenegep kötelező mező jelölések
-      raktarIdo.find('legend').eq(0).append(kotelezo);
-      raktarFeltetelek.find('label').eq(0).append(kotelezo);
-        $('#edit-field-helyszin-nev').find('label').eq(0).append(kotelezo);
-        $('#edit-field-iranyitoszam').find('label').eq(0).append(kotelezo);
-        $('#edit-field-helyseg').find('label').eq(0).append(kotelezo);
-        $('#edit-field-utca').find('label').eq(0).append(kotelezo);
+    //zenegep kötelező mező jelölések
+    addStar(raktarIdo.find('legend').eq(0));
+    addStar(raktarFeltetelek.find('label').eq(0));
+    addStar($('#edit-field-helyszin-nev').find('label').eq(0));
+    addStar($('#edit-field-iranyitoszam').find('label').eq(0));
+    addStar($('#edit-field-helyseg').find('label').eq(0));
+    addStar($('#edit-field-utca').find('label').eq(0));
 
-      if(!raktarChkbox.is(':checked')){ //nincs raktár pipálva -> rejtések
+    if(!raktarChkbox.is(':checked')){ //nincs raktár pipálva -> rejtések
         raktarFeltetelek.hide();
         raktarIdo.hide();
         }
@@ -90,87 +131,87 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){
             //raktár esetén nincs értelme helyszínnek
             helyszin.hide();
         }
-      raktarChkbox.change(function(){
-          if($(this).is(':checked')){
-            //bejelöléskor továbbiak mutatása
-          raktarFeltetelek.fadeIn(200);
-          raktarIdo.fadeIn(200);
+        raktarChkbox.change(function(){
+            if($(this).is(':checked')){
+                //bejelöléskor továbbiak mutatása
+                raktarFeltetelek.fadeIn(200);
+                raktarIdo.fadeIn(200);
 
                 //raktár esetén nincs értelme helyszínnek
                 helyszin.fadeOut(200);
 
-          }
-          else {
-            //lejelöléskor továbbiak elrejtése
-          raktarFeltetelek.fadeOut(200);
-          raktarIdo.fadeOut(200);
+            }
+            else {
+                //lejelöléskor továbbiak elrejtése
+                raktarFeltetelek.fadeOut(200);
+                raktarIdo.fadeOut(200);
 
                 //raktár esetén nincs értelme helyszínnek - vissza
                 helyszin.fadeIn(200);
-          }
+            }
         });
 
 
 
-      //többszörözésenkénti + új esetén kötelező tracklista
-      var jogdijTipus = $('#edit-field-jogositas-und'),
-        ujgep = $('#edit-field-ujgep-und-uj'),
-        tracklista = $('#edit-field-tobbszorozesi-lista');
-      if( jogdijTipus.val() == 'tobbszoroz' && ujgep.is(':checked')){
-        tracklista.find('label').eq(0).append(kotelezo);
-      }
-      ujgep.change(function(){
-          if( !$(this).is(':checked')){ 
-          tracklista.find('.form-required').remove();
-          } 
-          else if(jogdijTipus.val() == 'tobbszoroz'){
-          tracklista.find('label').eq(0).append(kotelezo);
-          }
+        //többszörözésenkénti + új esetén kötelező tracklista
+        var jogdijTipus = $('#edit-field-jogositas-und'),
+            ujgep = $('#edit-field-ujgep-und-uj'),
+            tracklista = $('#edit-field-tobbszorozesi-lista');
+        if( jogdijTipus.val() == 'tobbszoroz' && ujgep.is(':checked')){
+            addStar(tracklista.find('label').eq(0));
+        }
+        ujgep.change(function(){
+            if( !$(this).is(':checked')){ 
+                tracklista.find('.form-required').remove();
+            } 
+            else if(jogdijTipus.val() == 'tobbszoroz'){
+                addStar(tracklista.find('label').eq(0));
+            }
         });
-      jogdijTipus.change(function(){
-          if( $(this).find('option:selected').val() != 'tobbszoroz'){ 
-          tracklista.find('.form-required').remove();
-          } 
-          else if(ujgep.is(':checked')){
-          tracklista.find('label').eq(0).append(kotelezo);
-          }
+        jogdijTipus.change(function(){
+            if( $(this).find('option:selected').val() != 'tobbszoroz'){ 
+                tracklista.find('.form-required').remove();
+            } 
+            else if(ujgep.is(':checked')){
+                addStar(tracklista.find('label').eq(0));
+            }
         });
 
     }
 
     //alkalmankenti jogosításnál az adatszolgáltatas kötelező (HZ és DJ esetén ugyanaz a field)
-     $('#edit-field-tobbszorozesi-lista-und-0-ajax-wrapper').find('label').eq(0).append(kotelezo);
+    addStar($('#edit-field-tobbszorozesi-lista-und-0-ajax-wrapper').find('label').eq(0));
 
 
 ////// ZENEGÉP  /////////
 
     //a 2014-es jogdíjtípus kötelező
-     $('#edit-field-jogositas-2014').find('label').eq(0).append(kotelezo);
+    addStar($('#edit-field-jogositas-2014').find('label').eq(0));
 
-  //ha nem átalányról vált többszörözésenkénti Zenegépre, el kell rejteni a váltás elfogadót
-  if( 
-    //Eredetileg valamelyik átalány van beállítva
-    Drupal.settings.mahasz_js.node_type === "zenegep" &&
-    ( Drupal.settings.mahasz_js.node_fields.field_jogositas[0].value === "atalany-ev" || Drupal.settings.mahasz_js.node_fields.field_jogositas[0].value === "atalany-negyedev" )
-  ) {
-    //alap beállítás
-    if($('#edit-field-jogositas-2014-und').val() !== "tobbszoroz") {
-      $('#edit-field-atalany-valtas-feltetelei').hide(); //console.log('nem tobbszoroz, rejtve legyen alapból');
+    //ha nem átalányról vált többszörözésenkénti Zenegépre, el kell rejteni a váltás elfogadót
+    if( 
+        //Eredetileg valamelyik átalány van beállítva
+        Drupal.settings.mahasz_js.node_type === "zenegep" &&
+        ( Drupal.settings.mahasz_js.node_fields.field_jogositas[0].value === "atalany-ev" || Drupal.settings.mahasz_js.node_fields.field_jogositas[0].value === "atalany-negyedev" )
+    ) {
+        //alap beállítás
+        if($('#edit-field-jogositas-2014-und').val() !== "tobbszoroz") {
+            $('#edit-field-atalany-valtas-feltetelei').hide(); //console.log('nem tobbszoroz, rejtve legyen alapból');
+        }
+
+        $('#edit-field-jogositas-2014-und').change(function(event){
+            if($(this).val()==="tobbszoroz"){
+                //feltétel mutatás
+                $('#edit-field-atalany-valtas-feltetelei').fadeIn(200);
+            }
+            else {
+                //feltétel újra elrejtés
+                $('#edit-field-atalany-valtas-feltetelei:visible').fadeOut(200);
+            }
+        });
     }
-
-    $('#edit-field-jogositas-2014-und').change(function(event){
-      if($(this).val()==="tobbszoroz"){
-        //feltétel mutatás
-        $('#edit-field-atalany-valtas-feltetelei').fadeIn(200);
-      }
-      else {
-        //feltétel újra elrejtés
-        $('#edit-field-atalany-valtas-feltetelei:visible').fadeOut(200);
-      }
-    });
-  }
-  else {
-      $('#edit-field-atalany-valtas-feltetelei').hide(); //console.log('nem átalányról jön, rejtve legyen');
-  }
+    else {
+        $('#edit-field-atalany-valtas-feltetelei').hide(); //console.log('nem átalányról jön, rejtve legyen');
+    }
 
 };
