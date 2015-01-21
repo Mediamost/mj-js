@@ -1,6 +1,8 @@
 /* regform */
 Drupal.behaviors.mahasz_js_regform = function ($) {
-
+    if(Drupal.settings.mahasz_js.args[0] !== 'user' || Drupal.settings.mahasz_js.args[1] === 'login' || Drupal.settings.mahasz_js.args[1] === 'password' || typeof Drupal.settings.mahasz_js.args[1] === 'undefined' ) {
+        return false;
+    }
 
 
     /*
@@ -120,7 +122,13 @@ Drupal.behaviors.mahasz_js_regform = function ($) {
     var $penzKapcsTel = $penzKapcsTel || $('#edit-field-penzugyi-kapcsolat-tel');
     var $penzKapcsEmail = $penzKapcsEmail || $('#edit-field-penzugyi-kapcsolat-email');
 
-    if( $szemely.val() === 'magan' || Drupal.settings.mahasz_js.user_fields.field_regisztralo_szemelye === 'magan'){
+    if( 
+        $szemely.val() === 'magan' 
+        || (
+            Drupal.settings.mahasz_js.user_fields.field_regisztralo_szemelye === 'magan'
+            && $szemely.val() !== 'ceg'
+        )
+    ){
         hideAndReset(Array($cegnev, $cegJogosult, $adoszam, $penzKapcsNev, $penzKapcsTel, $penzKapcsEmail));
         showFields(Array($teljesNev, $anyjaNeve, $szuletesiIdo, $muvesznev));
     }

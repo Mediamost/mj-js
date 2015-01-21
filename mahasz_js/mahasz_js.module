@@ -71,7 +71,11 @@ function mahasz_js_init(){
       'nid' => !empty($node) ? $node->nid : '',
       'uid' => !empty($node) ? $node->uid : '',
       'node_type' => !empty($node) ? $node->type : '',
-			'node_fields' => !empty($node) ? array('field_jogositas' => field_get_items('node', $node, 'field_jogositas')) : array(),
+			'node_fields' => !empty($node) ? array(
+        'field_jogositas' => field_get_items('node', $node, 'field_jogositas'),
+        'field_jogositas_2014' => field_get_items('node', $node, 'field_jogositas_2014'),
+        'field_jogositas_2015' => field_get_items('node', $node, 'field_jogositas_2015')
+      ) : array(),
       'formIds' => array()
 		),
 	), 'setting');
