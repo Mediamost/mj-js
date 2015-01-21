@@ -1,9 +1,14 @@
+
+
+
 /* 
  *  JS for node add + node edit pages 
+ *              ^^^        ^^^^
+ *               !           !
  */
 
 
-Drupal.behaviors.mahasz_js_edit_node = function ($){
+Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT !
 
 
 
