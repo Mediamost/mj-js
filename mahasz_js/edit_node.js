@@ -240,4 +240,33 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT
         $('#edit-field-atalany-valtas-feltetelei').hide(); //console.log('nem átalányról jön, rejtve legyen');
     }
 
+
+
+
+    //price show-hide in info block at Node add / edit page  (block 1-7)
+
+    //DJ ALKALMANKÉNTI JOGOSÍTÁS
+    $('#edit-field-rendezveny-ideje-und-0-value-datepicker-popup-0').change(function () {
+
+        var rendezvenyEve = $(this).val().substring(0, 4),
+            aktualisEv = new Date().getYear() + 1900,
+            arEve = aktualisEv;
+
+        //invalid datum, aktuális év kell
+        if(rendezvenyEve < 2013 || rendezvenyEve > aktualisEv+1){
+            arEve = aktualisEv;
+        }
+        //megfelelő év, ennek alapján lesz ár és díjak megjelenítve
+        else {
+            //csak létező árat mutasson (van olyan class, hogy arEve?)
+            arEve = $('.blokk-arak .' + rendezvenyEve).length > 0 ? rendezvenyEve : aktualisEv;
+        }
+
+        //show-hide
+        $('.blokk-arak .blokk-arak-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
+        $('.blokk-dijszabas .blokk-dijszabas-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
+
+    });
+
+
 };
