@@ -269,4 +269,29 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT
     });
 
 
+    //DJ ÁTALÁNYDÍJAS JOGOSÍTÁS
+    $('#edit-field-atalanyeve-und-0-value').change(function () {
+
+        var atalanyEve = $.trim( $(this).val() ),
+            aktualisEv = new Date().getYear() + 1900,
+            arEve = aktualisEv; //default
+
+        //invalid datum, aktuális év kell
+        if(atalanyEve < 2013 || atalanyEve > aktualisEv+1){
+            arEve = aktualisEv;
+        }
+        //megfelelő év, ennek alapján lesz ár és díjak megjelenítve
+        else {
+            //csak létező árat mutasson (van olyan class, hogy arEve?)
+            arEve = $('.blokk-arak .' + atalanyEve).length > 0 ? atalanyEve : aktualisEv;
+        }
+
+        //show-hide
+        $('.blokk-arak .blokk-arak-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
+        $('.blokk-dijszabas .blokk-dijszabas-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
+
+
+    });
+
+
 };
