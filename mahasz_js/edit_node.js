@@ -244,54 +244,37 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT
 
 
     //price show-hide in info block at Node add / edit page  (block 1-7)
-
-    //DJ ALKALMANKÉNTI JOGOSÍTÁS
-    $('#edit-field-rendezveny-ideje-und-0-value-datepicker-popup-0').change(function () {
-
-        var rendezvenyEve = $(this).val().substring(0, 4),
-            aktualisEv = new Date().getYear() + 1900,
+    var callbackYearChange = function (evt) {
+        //normalize input
+        var inputYear = $.trim( $(this).val() ).substring(0, 4),
+            aktualisEv = new Date().getYear() + 1900,   //trusting the users PC time settings
             arEve = aktualisEv;
 
         //invalid datum, aktuális év kell
-        if(rendezvenyEve < 2013 || rendezvenyEve > aktualisEv+1){
+        if(inputYear < 2013 || inputYear > aktualisEv+1){
             arEve = aktualisEv;
         }
         //megfelelő év, ennek alapján lesz ár és díjak megjelenítve
         else {
             //csak létező árat mutasson (van olyan class, hogy arEve?)
-            arEve = $('.blokk-arak .' + rendezvenyEve).length > 0 ? rendezvenyEve : aktualisEv;
+            arEve = $('.blokk-arak .' + inputYear).length > 0 ? inputYear : aktualisEv;
         }
 
         //show-hide
         $('.blokk-arak .blokk-arak-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
         $('.blokk-dijszabas .blokk-dijszabas-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
 
-    });
+    }
+
+
+
+
+    //DJ ALKALMANKÉNTI JOGOSÍTÁS
+    $('#edit-field-rendezveny-ideje-und-0-value-datepicker-popup-0').change(callbackYearChange);
 
 
     //DJ ÁTALÁNYDÍJAS JOGOSÍTÁS
-    $('#edit-field-atalanyeve-und-0-value').change(function () {
-
-        var atalanyEve = $.trim( $(this).val() ),
-            aktualisEv = new Date().getYear() + 1900,
-            arEve = aktualisEv; //default
-
-        //invalid datum, aktuális év kell
-        if(atalanyEve < 2013 || atalanyEve > aktualisEv+1){
-            arEve = aktualisEv;
-        }
-        //megfelelő év, ennek alapján lesz ár és díjak megjelenítve
-        else {
-            //csak létező árat mutasson (van olyan class, hogy arEve?)
-            arEve = $('.blokk-arak .' + atalanyEve).length > 0 ? atalanyEve : aktualisEv;
-        }
-
-        //show-hide
-        $('.blokk-arak .blokk-arak-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
-        $('.blokk-dijszabas .blokk-dijszabas-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
-
-
-    });
+    $('#edit-field-atalanyeve-und-0-value').change(callbackYearChange);
 
 
 };
