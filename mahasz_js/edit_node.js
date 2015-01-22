@@ -195,34 +195,34 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT
 
     //ha nem átalányról vált többszörözésenkénti Zenegépre, el kell rejteni a váltás elfogadót
     if( 
-        Drupal.settings.mahasz_js.node_type === "jogositas_zenegep"
-
-        && (
+        Drupal.settings.mahasz_js.node_type === "jogositas_zenegep" &&
+        (
             //2014 = átalány
             (
-                Drupal.settings.mahasz_js.node_fields.field_jogositas_2014 !==false
-                && (
-                    Drupal.settings.mahasz_js.node_fields.field_jogositas_2014[0].value === "atalany-ev" 
-                    || Drupal.settings.mahasz_js.node_fields.field_jogositas_2014[0].value === "atalany-negyedev"
+                Drupal.settings.mahasz_js.node_fields.field_jogositas_2014 !==false &&
+                (
+                    Drupal.settings.mahasz_js.node_fields.field_jogositas_2014[0].value === "atalany-ev" ||
+                    Drupal.settings.mahasz_js.node_fields.field_jogositas_2014[0].value === "atalany-negyedev"
                 )
-            )
+            ) ||
 
-            ||
+            
             //2013 = átalány && 2014 = semmi
             (
-                Drupal.settings.mahasz_js.node_fields.field_jogositas[0].value === "atalany-ev" 
-                || Drupal.settings.mahasz_js.node_fields.field_jogositas[0].value === "atalany-negyedev"
-            )
-            && (
-                Drupal.settings.mahasz_js.node_fields.field_jogositas_2014 === false 
-                || Drupal.settings.mahasz_js.node_fields.field_jogositas_2014[0].value === "semmi" 
+                Drupal.settings.mahasz_js.node_fields.field_jogositas[0].value === "atalany-ev" ||
+                Drupal.settings.mahasz_js.node_fields.field_jogositas[0].value === "atalany-negyedev"
+            ) &&
+             (
+                Drupal.settings.mahasz_js.node_fields.field_jogositas_2014 === false ||
+                Drupal.settings.mahasz_js.node_fields.field_jogositas_2014[0].value === "semmi" 
             )
         )    
 
     ) {
         //alap beállítás: rejt, ha az új nem többszöröz
         if($('#edit-field-jogositas-2015-und').val() !== "tobbszoroz") {
-            $('#edit-field-atalany-valtas-feltetelei').hide(); //console.log('nem tobbszoroz, rejtve legyen alapból');
+            $('#edit-field-atalany-valtas-feltetelei').hide();
+            //console.log('nem tobbszoroz, rejtve legyen alapból');
         }
 
         $('#edit-field-jogositas-2015-und').change(function(event){
