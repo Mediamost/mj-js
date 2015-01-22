@@ -264,17 +264,33 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT
         $('.blokk-arak .blokk-arak-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
         $('.blokk-dijszabas .blokk-dijszabas-elem').addClass('hidden').closest('.' + arEve).removeClass('hidden');
 
-    }
+    };
 
 
 
 
-    //DJ ALKALMANKÉNTI JOGOSÍTÁS
+    //DJ ALKALMANKÉNTI JOGOSÍTÁS, HZ ALKALMANKÉNTI JOGOSÍTÁS (ugyanaz a mező ID)
     $('#edit-field-rendezveny-ideje-und-0-value-datepicker-popup-0').change(callbackYearChange);
 
 
-    //DJ ÁTALÁNYDÍJAS JOGOSÍTÁS
+    //DJ ÁTALÁNYDÍJAS JOGOSÍTÁS, HZ ÁTALÁNYDÍJAS JOGOSÍTÁS (ugyanaz a mező ID)
     $('#edit-field-atalanyeve-und-0-value').change(callbackYearChange);
+
+    //DJ DARABONKÉNTI JOGOSÍTÁS, HZ DARABONKÉNTI JOGOSÍTÁS: nincs év mező
+
+    //HZ ÁTALÁNYDÍJAS JOGOSÍTÁS 01h-nál tovább nyitva tartás
+    $('#edit-field-01h-utan-nyitva-und input').change(function(evt) {
+        if ($(this).val() == 'Igen') {
+            $('.01h_utan_nyitva').removeClass('normal-list-item');
+            $('.01h_utan_zarva').addClass('normal-list-item');
+        }
+        else {
+            $('.01h_utan_zarva').removeClass('normal-list-item');
+            $('.01h_utan_nyitva').addClass('normal-list-item');
+        }
+    });
+
+
 
 
 };
