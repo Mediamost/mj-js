@@ -7,7 +7,7 @@
 
         hideFieldUjgep: function () {
             var ujgep = $('#edit-field-ujgep'),
-                jogositas = $('#edit-field-jogositas-2020-und');
+                jogositas = $('#edit-field-jogositas-2021-und');
 
             //hide ujgep if type is not atalany
             if( jogositas.val() !== 'atalany-negyedev' && jogositas.val() !== 'atalany-ev' ) {

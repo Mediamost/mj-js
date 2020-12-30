@@ -79,7 +79,8 @@ function mahasz_js_init(){
         'field_jogositas_2017' => field_get_items('node', $node, 'field_jogositas_2017'),
         'field_jogositas_2018' => field_get_items('node', $node, 'field_jogositas_2018'),
         'field_jogositas_2019' => field_get_items('node', $node, 'field_jogositas_2019'),
-        'field_jogositas_2020' => field_get_items('node', $node, 'field_jogositas_2020')
+        'field_jogositas_2020' => field_get_items('node', $node, 'field_jogositas_2020'),
+        'field_jogositas_2021' => field_get_items('node', $node, 'field_jogositas_2021')
       ) : array(),
       'formIds' => array()
 		),
@@ -122,6 +123,7 @@ function mahasz_js_page_build(&$page) {
  */
 function mahasz_custom_title($node) {
   $fields = array(
+    'field_jogositas_2021',
     'field_jogositas_2020',
     'field_jogositas_2019',
     'field_jogositas_2018',

@@ -24,7 +24,7 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT
      */
     var zgJogositasChange = function () {
         //csak többszöröz esetén kell a tracklist mezeje
-        $zgJogositas = $('#edit-field-jogositas-2020-und');
+        $zgJogositas = $('#edit-field-jogositas-2021-und');
 
         if($zgJogositas.length && $zgJogositas.val() !== 'tobbszoroz'){
             $('.field-name-field-tobbszorozesi-lista').slideUp(300);
@@ -34,7 +34,7 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT
     };
 
     //bind
-    $('#edit-field-jogositas-2020-und').change(function () {
+    $('#edit-field-jogositas-2021-und').change(function () {
         zgJogositasChange();
     });
 
@@ -181,8 +181,8 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT
 
 ////// ZENEGÉP  /////////
 
-    //a 2020 jogdíjtípus kötelező
-    addStar($('#edit-field-jogositas-2020').find('label').eq(0));
+    //a 2021 jogdíjtípus kötelező
+    addStar($('#edit-field-jogositas-2021').find('label').eq(0));
 
 
     var isFieldAtalany = function (field) {
@@ -210,30 +210,30 @@ Drupal.behaviors.mahasz_js_edit_node = function ($){    //for node ADD  or  EDIT
     //ha nem átalányról vált többszörözésenkénti Zenegépre, el kell rejteni a váltás elfogadót
     if(
         Drupal.settings.mahasz_js.node_type === "jogositas_zenegep" && (
-            //2019 = átalány
-            isFieldAtalany('field_jogositas_2019') ||
+            //2020 = átalány
+            isFieldAtalany('field_jogositas_2020') ||
 
-            //2019==semmi && 2018==atalany
-            ( isFieldEmpty('field_jogositas_2019') && isFieldAtalany('field_jogositas_2018') ) ||
+            //2020==semmi && 2019==atalany
+            ( isFieldEmpty('field_jogositas_2020') && isFieldAtalany('field_jogositas_2019') ) ||
 
-            //2019==semmi && 2018==semmi && 2017==atalany
-            ( isFieldEmpty('field_jogositas_2019') && isFieldEmpty('field_jogositas_2018') && isFieldAtalany('field_jogositas_2017') ) ||
+            //2020==semmi && 2019==semmi && 2018==atalany
+            ( isFieldEmpty('field_jogositas_2020') && isFieldEmpty('field_jogositas_2019') && isFieldAtalany('field_jogositas_2018') ) ||
 
-            //2019==semmi && 2018==semmi && 2017==semmi && 2016==atalany
-            ( isFieldEmpty('field_jogositas_2019') && isFieldEmpty('field_jogositas_2018') && isFieldEmpty('field_jogositas_2017') && isFieldAtalany('field_jogositas_2016') ) ||
+            //2020==semmi && 2019==semmi && 2018==semmi && 2017==atalany
+            ( isFieldEmpty('field_jogositas_2020') && isFieldEmpty('field_jogositas_2019') && isFieldEmpty('field_jogositas_2018') && isFieldAtalany('field_jogositas_2017') ) ||
 
-            //2019==semmi && 2018==semmi && 2017==semmi && 2016==semmi && 2015==atalany
-            ( isFieldEmpty('field_jogositas_2019') && isFieldEmpty('field_jogositas_2018') && isFieldEmpty('field_jogositas_2017') && isFieldEmpty('field_jogositas_2016') && isFieldAtalany('field_jogositas_2015') )
+            //2020==semmi && 2019==semmi && 2018==semmi && 2017==semmi && 2016==atalany
+            ( isFieldEmpty('field_jogositas_2020') && isFieldEmpty('field_jogositas_2019') && isFieldEmpty('field_jogositas_2018') && isFieldEmpty('field_jogositas_2017') && isFieldAtalany('field_jogositas_2016') )
 
         )
 
     ) {
         // default: rejt, ha az új nem többszöröz
-        if($('#edit-field-jogositas-2020-und').val() !== "tobbszoroz") {
+        if($('#edit-field-jogositas-2021-und').val() !== "tobbszoroz") {
             $('#edit-field-atalany-valtas-feltetelei').hide();
         }
 
-        $('#edit-field-jogositas-2020-und').change(function(event){
+        $('#edit-field-jogositas-2021-und').change(function(event){
             if($(this).val() === "tobbszoroz"){
                 //feltétel mutatás
                 $('#edit-field-atalany-valtas-feltetelei').fadeIn(200);
