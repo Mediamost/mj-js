@@ -3,7 +3,6 @@
   Drupal.behaviors.MYMODULE = {
     attach: function (context, settings) {
       // Your Javascript code goes here
- 
     }
   };
 }(jQuery));

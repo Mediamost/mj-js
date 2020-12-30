@@ -3,12 +3,11 @@
     Drupal.behaviors.mahasz_js = {
 
 
-
         /* Custom features, all called on special case */
-        
+
         hideFieldUjgep: function () {
             var ujgep = $('#edit-field-ujgep'),
-                jogositas = $('#edit-field-jogositas-2015-und');
+                jogositas = $('#edit-field-jogositas-2020-und');
 
             //hide ujgep if type is not atalany
             if( jogositas.val() !== 'atalany-negyedev' && jogositas.val() !== 'atalany-ev' ) {
@@ -16,14 +15,14 @@
             }
 
             jogositas.change(function(evt){
-                
+
                 jogositas = this.value;
-                
+
                 if(jogositas == 'atalany-negyedev' || jogositas == 'atalany-ev') {
                     //show ujgep
                     ujgep.slideDown(300);
                 }
-                
+
                 else {
                     // hide and clear ujgep
                     ujgep.find('input').removeAttr('checked');
@@ -110,7 +109,7 @@
                 mahasz.args.length > 2 &&
                 mahasz.args[0] === 'node' && 
                 mahasz.args[1] === 'add'
-            ) {    
+            ) {
                 this.nodeAdd(mahasz.args[2]);
                 Drupal.behaviors.mahasz_js_edit_node($);
             }
@@ -125,12 +124,12 @@
                 //all node edit pages
                 this.nodeEdit(mahasz.formIds, mahasz.nid, mahasz.uid, mahasz.currentUser);
                 Drupal.behaviors.mahasz_js_edit_node($);
-                
+
                 //tobbszorozesi_lista
                 if($.inArray('tobbszorozesi_lista_node_form', mahasz.formIds) !== -1) {
                     Drupal.behaviors.mahasz_js_sablon_szovegek($);
                 }
-                    
+
             }
 
             //after reset password
@@ -161,9 +160,6 @@
                 Drupal.behaviors.mahasz_js_levelkuldes($);
             }
 
-
-
-     
         }
     };
 }(jQuery));
